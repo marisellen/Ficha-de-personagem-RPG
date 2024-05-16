@@ -1,34 +1,33 @@
 package races;
 public class Human extends Race{
-        public String raca;
+        public String racaName;
+        public int bonusPeri;
         public boolean visaoNoEscuro;
 
-        private void Race(String raca){
-            this.raca = raca;
-        }
+/*    public void setRaca(String Human) {
+        this.raca = Human;
+    }
 
-        public String getRaca(){
-            return raca;
-        }
+    public static Race createHman() {
+        return new Race("Humano");
+    }
 
-        public static Race createHman() {
-            return new Race("Humano");
-        }
+    public static Race desloc(){
+        return new Race(6);
+    }
 
-        public boolean Raca(boolean visaoNoEscuro){
-            this.visaoNoEscuro = visaoNoEscuro;
-            return visaoNoEscuro(false);
-        }
+    public static Race DarkView() {
+        return false;
+    }
 
-        public boolean visaoNoEscuro(boolean V){
-            return visaoNoEscuro(false);
-        }
+    public static Race bonusP(){
+        this.bonusPeri = 2;
+    }
 
+    public static Race valueAt(){
+        return new Race();
+    }
 
-    /*
-        valoresDeAtributo = VDA; // valoresDeAtributo +2 num valor de atributo à escolha do jogador
-        deslocamento = 6;
-        visaoNoEscuro = false;
-        bonusNaPericia = bonusPeri; // bonusNaPericia +2 em Natureza, +2 em Percepção
+      // bonusNaPericia +2 em Natureza, +2 em Percepção
     */
 }

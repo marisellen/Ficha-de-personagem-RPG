@@ -1,21 +1,38 @@
 package races;
 
+import java.util.List;
+
 public class Race {
-    public String raca;
-    public int valoresDeAtributo;
-    public int deslocamento;
-    public boolean visaoNoEscuro;
-    public int bonusNaPericia;
+    public static String name;
+    public static int valoresDeAtributo;
+    public static int deslocamento;
+    public static boolean visaoNoEscuro;
+    public static int bonusNaPericia;
 
     public Race() {
-        this.Race = "Raça";
+        this.name = "Sem raça";
+    }
+    public Race(String name) {
+        this.name = name;
+    }
+    public static String getName(){
+        return name;
     }
 
-    public Race(String raca) {
-        this.Raca = raca;
-    }
 
-    public Race(int des){
+/*
+    public Race(int des) {
         this.deslocamento = des;
-        // 2
+    }
+
+    public Race(boolean visaoEsc){
+        this.visaoNoEscuro = visaoEsc;
+    }
+
+    public Race(short bonusPeri, short valueAtri){
+        this.bonusNaPericia = bonusPeri;
+        this.valoresDeAtributo =  valueAtri;
+    }
+*/
+
 }
