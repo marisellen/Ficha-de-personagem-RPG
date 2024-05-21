@@ -1,4 +1,5 @@
 package characteristics;
+// classe das caracteristicas do personagem
 public class Character {
     public String name, behavior, clothes, idioms, appearance;
     public double height;
@@ -22,3 +23,6 @@ public class Character {
         this.behavior = behavior;
         this.appearance = appearance;
     }
+
+
+}

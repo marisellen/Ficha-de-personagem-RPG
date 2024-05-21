@@ -11,7 +11,7 @@ import races.Race;
 import classes.Class;
 import skills.Craft;
 
-public class Main {
+public abstract class Main implements interChar{
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -20,16 +20,19 @@ public class Main {
         System.out.println("Ficha personagem");
         System.out.println("----------------------------");
 
+        // personagem
         Character charObj = makeCharacter();
         List<Race> races = new ArrayList<Race>();
-
+        // Variável raça
         Race selectedRace = characterRace(races);
 
 
+        // futura lista de classes
        /* List<Class> classes = new ArrayList<Class>();
         List<Craft> crafts = new ArrayList<Craft>(); */
 
     }
+    // método de criação
         public static Character makeCharacter () {
         Scanner sc = new Scanner(System.in);
             System.out.print("Digite o nome do personagem:");
@@ -45,27 +48,27 @@ public class Main {
             }
     }
 
-        public static Race characterRace(List<Race> allRaces){
-            Scanner sc = new Scanner(System.in);
-            String[] raceNames = new String[allRaces.size()];
-            for (int i = 0; i < allRaces.size(); i++){
-                raceNames[i] = allRaces.get(i).getName();
-            }
-            System.out.println("Escolha a raça do personagem:");
-            Race selectedRace = null;
-            for (int i = 0; i < raceNames.length; i++) {
-                System.out.println(i + 1 + ". " + raceNames[i]);
-            }
-            int selectedRaceIndex = sc.nextInt() - 1;
-            Race selectedRace = allRaces.get(selectedRaceIndex);
-
+    // método escolher raça
+    public static Race characterRace(List<Race> allRaces){
+        Scanner sc = new Scanner(System.in);
+        String[] raceNames = new String[allRaces.size()];
+        for (int i = 0; i < allRaces.size(); i++){
+            raceNames[i] = allRaces.get(i).getRaceName();
+        }
+        System.out.println("Escolha a raça do personagem:");
+        Race selectedRace = null;
+        for (int i = 0; i < raceNames.length; i++) {
+            System.out.println(i + 1 + ". " + raceNames[i]);
+        }
+        int selectedRaceIndex = sc.nextInt() - 1;
+        selectedRace = allRaces.get(selectedRaceIndex);
             return selectedRace;
         }
 
 
 
 
-/*
+/* futuro escolher classe
         public static Character characterClass(List<Class> allClasses) {
             String class = JOptionPane.showConfirmDialog("Escolha a classe do personagem:");
                 Class slectedClass = null;
@@ -74,14 +77,13 @@ public class Main {
         }
 
 
+
+// futuro caracteristicas
         System.out.print("Digite a altura do personagem:");
         charObj.height = sc.nextDouble();
 
         System.out.print("Digite o comportamento do personagem:");
         charObj.behavior = sc.nextLine();
-
-        System.out.print("\nDigite os idiomas que o personagem fala:");
-        charObj.idioms = sc.nextLine();
 
         System.out.print("Descreva a aparência do personagem:");
         charObj.appearance = sc.nextLine();
@@ -89,8 +91,9 @@ public class Main {
         System.out.println("Descreva as roupas do personagem:");
         charObj.clothes = sc.nextLine();
 */
-
-
+/* futuro idiomas
+        System.out.print("\nDigite os idiomas que o personagem fala:");
+    charObj.idioms = sc.nextLine();
+*/
 
     }
-}

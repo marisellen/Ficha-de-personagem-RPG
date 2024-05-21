@@ -1,8 +1,9 @@
 package races;
 public class Human extends Race{
-        public String racaName;
-        public int bonusPeri;
-        public boolean visaoNoEscuro;
+
+
+
+
 
 /*    public void setRaca(String Human) {
         this.raca = Human;

@@ -19,6 +19,6 @@ public class Tiefling extends Race {
         this.valoresDeAtributo = VDA; // +1 em Inteligência, +2 em Carisma
         this.deslocamento = 2;
         this.visaoNoEscuro = true;
-        this.bonusNaPericia = bonusPeri; // +2 em Blefar, +2 em Furtividade
+        this.bonusNaPericia = bonusPeri; // +2 em Atuação, +2 em Furtividade
     */
 }

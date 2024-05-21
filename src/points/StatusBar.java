@@ -1,5 +1,5 @@
 package points;
-
+// classe da barra de status
 public class StatusBar {
     // HP - Pontos de vida
     //	XP - Pontos de Experiência

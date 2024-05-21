@@ -1,28 +1,22 @@
 package races;
 
-public class Dragonborn extends Race{
-
+public abstract class Dragonborn extends Race{
     public String raca;
 
-    private void Race(String raca){
-        this.raca = raca;
+    public Dragonborn() {
+        super("Dragonborn");
     }
 
-    public String getRaca(){
-        return raca;
+    public boolean hasDarkVision() {
+        return false;
     }
 
-    private static Race createDragonborn() {
-        return new Race("Draconato");
     }
-
 
 /*
-        this.valoresDeAtributo = VDA; // +2 em Força, +2 em Carisma
-        this.deslocamento = 6;
-        this.visaoNoEscuro = false;
-        this.bonusNaPericia = bonusPeri; // +2 em História, +2 em Intimidação
+        valoresDeAtributo = +2 em Força, +2 em Carisma
+        deslocamento = 6;
+        visaoNoEscuro = false;
+        bonusNaPericia = +2 em História, +2 em Intimidação
  */
 
-
-}
