@@ -7,7 +7,7 @@ import java.util.Scanner;
 import characteristics.Character;
 import races.*;
 
-public abstract class Main implements interChar{
+public abstract class Main implements interChar {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
@@ -16,39 +16,40 @@ public abstract class Main implements interChar{
         System.out.println("Ficha personagem");
         System.out.println("----------------------------");
 
-        // personagem
+        // Criar personagem
         Character charObj = makeCharacter();
-        List<Race> races = new ArrayList<Race>();
-        // Variável raça
-        Race selectedRace = characterRace(races);
 
+        // Lista de raças
+        List<Race> races = new ArrayList<>();
+
+        // Escolher raça
+        Race selectedRace = characterRace(races);
+        charObj.setRace(selectedRace);
+
+        // Caso escoljer humano
+        if (charObj.getRace() instanceof Human) {
+            defineHumanAttributes((Human) charObj.getRace());
+        }
 
         // futura lista de classes
        /* List<Class> classes = new ArrayList<Class>();
         List<Craft> crafts = new ArrayList<Craft>(); */
 
     }
+
     // método de criação
-        public static Character makeCharacter () {
+    public static Character makeCharacter() {
         Scanner sc = new Scanner(System.in);
-            System.out.print("Digite o nome do personagem:");
-            String name = sc.next();
-            return  new Character(name);
-
-            class Character {
-                private String name;
-
-                public Character(String name) {
-                    this.name = name;
-                }
-            }
+        System.out.print("Digite o nome do personagem:");
+        String name = sc.next();
+        return new Character(name);
     }
 
     // método escolher raça
-    public static Race characterRace(List<Race> allRaces){
+    public static Race characterRace(List<Race> allRaces) {
         Scanner sc = new Scanner(System.in);
         String[] raceNames = new String[allRaces.size()];
-        for (int i = 0; i < allRaces.size(); i++){
+        for (int i = 0; i < allRaces.size(); i++) {
             raceNames[i] = allRaces.get(i).getRaceName();
         }
         System.out.println("Escolha a raça do personagem:");
@@ -58,22 +59,34 @@ public abstract class Main implements interChar{
         }
         int selectedRaceIndex = sc.nextInt() - 1;
         selectedRace = allRaces.get(selectedRaceIndex);
-            return selectedRace;
-        }
+        return selectedRace;
+    }
 
     // Definir atributos do humano
-    public static void HumanAtt() {
-        Human human = new Human();
-        System.out.println("O personagem é um " + human.getName());
+    public static void defineHumanAttributes(Human human) {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("O personagem é um " + human.getName() + ", então os atributos extras podem ser definidos pelo jogador:");
+
+        System.out.print("Força: ");
+        human.setForca(sc.nextInt());
+        System.out.print("Destreza: ");
+        human.setDestreza(sc.nextInt());
+        System.out.print("Inteligência: ");
+        human.setInteligencia(sc.nextInt());
+        System.out.print("Constituição: ");
+        human.setConstituicao(sc.nextInt());
+        System.out.print("Carisma: ");
+        human.setCarisma(sc.nextInt());
+        System.out.println("Atributos definidos:");
         System.out.println("Força: " + human.getForca());
         System.out.println("Destreza: " + human.getDestreza());
         System.out.println("Inteligência: " + human.getInteligencia());
         System.out.println("Constituição: " + human.getConstituicao());
         System.out.println("Carisma: " + human.getCarisma());
-
+        sc.close();
     }
 
-
+}
 /* futuro escolher classe
         public static Character characterClass(List<Class> allClasses) {
             String class = JOptionPane.showConfirmDialog("Escolha a classe do personagem:");
@@ -101,5 +114,3 @@ public abstract class Main implements interChar{
         System.out.print("\nDigite os idiomas que o personagem fala:");
     charObj.idioms = sc.nextLine();
 */
-
-    }

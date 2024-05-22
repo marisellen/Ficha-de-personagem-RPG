@@ -49,7 +49,6 @@ public abstract class Race implements interChar, Skills {
         this.visaoNoEscuro = visaoEsc;
     }
 
-
     // método deslocamento
     public int deslocamento(String Race) {
         int des;

@@ -47,7 +47,22 @@ public class Human extends Race implements Attributes {
     public int getCarisma() {
         return carisma;
     }
-
+    // **********************************************************
+    public void setForca(int forca) {
+        this.forca = forca;
+    }
+    public void setDestreza(int destreza) {
+        this.destreza = destreza;
+    }
+    public void setInteligencia(int inteligencia) {
+        this.inteligencia = inteligencia;
+    }
+    public void setConstituicao(int constituicao) {
+        this.constituicao = constituicao;
+    }
+    public void setCarisma(int carisma) {
+        this.carisma = carisma;
+    }
     // **********************************************************
     @Override
     public int Acrobacia() {
@@ -129,8 +144,6 @@ public class Human extends Race implements Attributes {
     public int Vontade() {
         return 0;
     }
-
-
 
 }
 /*
