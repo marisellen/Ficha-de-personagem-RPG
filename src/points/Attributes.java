@@ -13,4 +13,11 @@ public interface Attributes {
 
     int getCarisma();
 
+    /*void setForca();
+    void setDestreza();
+    void setInteligencia();
+    void setConstituicao();
+    void setCarisma();
+*/
+
 }
