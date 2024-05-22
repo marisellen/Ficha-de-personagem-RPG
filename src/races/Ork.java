@@ -1,25 +1,35 @@
 package races;
 
-public class Ork extends Race{
+import points.Attributes;
+
+public abstract class Ork extends Race implements Attributes {
     public String raca;
 
-    private void Race(String raca){
-        this.raca = raca;
+    public Ork() {
+        super("Ork");
     }
 
-    public String getRaca(){
-        return raca;
+    public boolean hasDarkVision() {
+        return true;
     }
 
-    private static Race createOrk() {
-        return new Race("Ork");
+    @Override
+    public int getForca() {
+        return 2;
+    }
+    @Override
+    public int getInteligencia() {
+        return -2;
+    }
+    @Override
+    public int Intimidação() {
+        return 2;
     }
 
+}
     /*
         this.valoresDeAtributo = VDA; // +2 em força, -2 em inteligência
         this.deslocamento = 2;
         this.visaoNoEscuro = true;
         this.bonusNaPericia = bonusPeri; // +2 em Intimidação
     */
-
-}

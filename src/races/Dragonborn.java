@@ -1,6 +1,8 @@
 package races;
 
-public abstract class Dragonborn extends Race{
+import points.*;
+
+public abstract class Dragonborn extends Race implements Attributes {
     public String raca;
 
     public Dragonborn() {
@@ -11,7 +13,23 @@ public abstract class Dragonborn extends Race{
         return false;
     }
 
+    @Override
+    public int getForca() {
+        return 2;
     }
+    @Override
+    public int getCarisma() {
+        return 2;
+    }
+    @Override
+    public int Conhecimento() {
+        return 2;
+    }
+    @Override
+    public int Intimidação() {
+        return 2;
+    }
+}
 
 /*
         valoresDeAtributo = +2 em Força, +2 em Carisma

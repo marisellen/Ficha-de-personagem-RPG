@@ -1,4 +1,7 @@
 package characteristics;
+
+import races.Human;
+
 // classe das caracteristicas do personagem
 public class Character {
     public String name, behavior, clothes, idioms, appearance;
@@ -23,6 +26,7 @@ public class Character {
         this.behavior = behavior;
         this.appearance = appearance;
     }
-
+    public Character(Human human) {
+    }
 
 }

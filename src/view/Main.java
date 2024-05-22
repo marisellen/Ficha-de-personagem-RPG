@@ -1,15 +1,11 @@
 package view;
 
-import javax.swing.JOptionPane;
-import java.awt.*;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 import characteristics.Character;
-import races.Race;
-import classes.Class;
-import skills.Craft;
+import races.*;
 
 public abstract class Main implements interChar{
 
@@ -65,7 +61,17 @@ public abstract class Main implements interChar{
             return selectedRace;
         }
 
+    // Definir atributos do humano
+    public static void HumanAtt() {
+        Human human = new Human();
+        System.out.println("O personagem é um " + human.getName());
+        System.out.println("Força: " + human.getForca());
+        System.out.println("Destreza: " + human.getDestreza());
+        System.out.println("Inteligência: " + human.getInteligencia());
+        System.out.println("Constituição: " + human.getConstituicao());
+        System.out.println("Carisma: " + human.getCarisma());
 
+    }
 
 
 /* futuro escolher classe

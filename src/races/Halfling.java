@@ -1,27 +1,37 @@
 package races;
 
-public class Halfling extends Race{
+import points.Attributes;
+
+public abstract class Halfling extends Race implements Attributes {
     public String raca;
 
-    private void Race(String raca){
-        this.raca = raca;
+    public Halfling() {
+        super("Halfling");
     }
 
-    public String getRaca(){
-        return raca;
+    public boolean hasDarkVision() {
+        return false;
     }
-
-    private static Race createHalfling() {
-        return new Race("Halfling");
+    @Override
+    public int getDestreza() {
+        return 2;
     }
-
-
+    @Override
+    public int getCarisma() {
+        return 2;
+    }
+    @Override
+    public int Acrobacia() {
+        return 2;
+    }
+    @Override
+    public int Ladinagem() {
+        return 2;
+    }
+}
   /*
         this.valoresDeAtributo = VDA; // +2 em Destreza, +2 em Carisma
         this.deslocamento = 6;
         this.visaoNoEscuro = false;
         this.bonusNaPericia = bonusPeri; // +2 em Acrobacia, +2 em Ladinagem
     */
-
-
-}

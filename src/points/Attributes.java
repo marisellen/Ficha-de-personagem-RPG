@@ -1,11 +1,16 @@
 package points;
 // classe dos atributos
-public class Attributes {
-    // Força (STR)
-//	Destreza (DEX)
-//	Inteligência (INT)
-//	Constituição (CON)
-//	Carisma (MEN)
+public interface Attributes {
+    String getName();
 
+    int getForca();
+
+    int getDestreza();
+
+    int getInteligencia();
+
+    int getConstituicao();
+
+    int getCarisma();
 
 }

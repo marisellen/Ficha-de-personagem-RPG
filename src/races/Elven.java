@@ -1,7 +1,32 @@
 package races;
 
-public abstract class Elven extends Race {
+import points.Attributes;
 
+public abstract class Elven extends Race implements Attributes {
+    public String raca;
+    public Elven() {
+        super("Elven");
+    }
+    public boolean hasDarkVision() {
+        return true;
+    }
+
+    @Override
+    public int getDestreza() {
+        return 2;
+    }
+    @Override
+    public int getInteligencia() {
+        return 2;
+    }
+    @Override
+    public int Natureza() {
+        return 2;
+    }
+    @Override
+    public int Percepcao() {
+        return 2;
+    }
 
 }
     /*

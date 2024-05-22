@@ -1,9 +1,8 @@
 package skills;
 // Interface de pericias
 public interface Skills {
-    // váriaveis auxiliares
+    // auxiliares
     String getName();
-    int getBonus();
 
     // pericias
     public int Acrobacia();
