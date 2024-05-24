@@ -1,93 +1,95 @@
 package view;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Scanner;
-
 import characteristics.Character;
 import races.*;
 
 public abstract class Main implements interChar {
-
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
         System.out.println("----------------------------");
         System.out.println("Ficha personagem");
         System.out.println("----------------------------");
 
-        // Criar personagem
-        Character charObj = makeCharacter();
+        Character character = makeCharacter();
+        character = characterRace(character);
 
-        // Lista de raças
-        List<Race> races = new ArrayList<>();
-
-        // Escolher raça
-        Race selectedRace = characterRace(races);
-        charObj.setRace(selectedRace);
-
-        // Caso escoljer humano
-        if (charObj.getRace() instanceof Human) {
-            defineHumanAttributes((Human) charObj.getRace());
-        }
-
-        // futura lista de classes
-       /* List<Class> classes = new ArrayList<Class>();
-        List<Craft> crafts = new ArrayList<Craft>(); */
-
+        System.out.println("Personagem criado: " + character.getName());
+        System.out.println("Raça do personagem: " + character.getRace().getRaceName());
     }
-
-    // método de criação
+    // Método de criação
     public static Character makeCharacter() {
         Scanner sc = new Scanner(System.in);
-        System.out.print("Digite o nome do personagem:");
+        System.out.print("Digite o nome do personagem: ");
         String name = sc.next();
         return new Character(name);
     }
-
-    // método escolher raça
-    public static Race characterRace(List<Race> allRaces) {
-        Scanner sc = new Scanner(System.in);
-        String[] raceNames = new String[allRaces.size()];
-        for (int i = 0; i < allRaces.size(); i++) {
-            raceNames[i] = allRaces.get(i).getRaceName();
-        }
+    // Método escolher raça
+    public static Character characterRace(Character character) {
+        Scanner scanner = new Scanner(System.in);
         System.out.println("Escolha a raça do personagem:");
-        Race selectedRace = null;
-        for (int i = 0; i < raceNames.length; i++) {
-            System.out.println(i + 1 + ". " + raceNames[i]);
+        System.out.println("1. Dwarf");
+        System.out.println("2. Dragonborn");
+        System.out.println("3. Elven");
+        System.out.println("4. Halfling");
+        System.out.println("5. Human");
+        System.out.println("6. Ork");
+        System.out.println("7. Tiefling");
+
+        int escolha = scanner.nextInt();
+        Race racaEscolhida = null;
+
+        switch (escolha) {
+            case 1:
+                racaEscolhida = new Dwarf();
+                break;
+            case 2:
+                racaEscolhida = new Dragonborn();
+                break;
+            case 3:
+                racaEscolhida = new Elven();
+                break;
+            case 4:
+                racaEscolhida = new Halfling();
+                break;
+            case 5:
+                racaEscolhida = new Human();
+                break;
+            case 6:
+                racaEscolhida = new Ork();
+                break;
+            case 7:
+                racaEscolhida = new Tiefling();
+                break;
+            default:
+                System.out.println("Escolha inválida.");
+                return character; // Retorna o personagem sem raça se a escolha for inválida.
         }
-        int selectedRaceIndex = sc.nextInt() - 1;
-        selectedRace = allRaces.get(selectedRaceIndex);
-        return selectedRace;
+
+        character.setRace(racaEscolhida); // Definir a raça no personagem.
+
+        // Caso escolher humano, definir atributos extras.
+        if (racaEscolhida instanceof Human) {
+            Human human = (Human) racaEscolhida;
+            System.out.println("O personagem é um " + human.getName() + ", então os atributos extras podem ser definidos pelo jogador:");
+
+            System.out.print("Força: ");
+            human.setForca(scanner.nextInt());
+            System.out.print("Destreza: ");
+            human.setDestreza(scanner.nextInt());
+            System.out.print("Inteligência: ");
+            human.setInteligencia(scanner.nextInt());
+            System.out.print("Constituição: ");
+            human.setConstituicao(scanner.nextInt());
+            System.out.print("Carisma: ");
+            human.setCarisma(scanner.nextInt());
+        }
+
+        return character;
     }
-
-    // Definir atributos do humano
-    public static void defineHumanAttributes(Human human) {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("O personagem é um " + human.getName() + ", então os atributos extras podem ser definidos pelo jogador:");
-
-        System.out.print("Força: ");
-        human.setForca(sc.nextInt());
-        System.out.print("Destreza: ");
-        human.setDestreza(sc.nextInt());
-        System.out.print("Inteligência: ");
-        human.setInteligencia(sc.nextInt());
-        System.out.print("Constituição: ");
-        human.setConstituicao(sc.nextInt());
-        System.out.print("Carisma: ");
-        human.setCarisma(sc.nextInt());
-        System.out.println("Atributos definidos:");
-        System.out.println("Força: " + human.getForca());
-        System.out.println("Destreza: " + human.getDestreza());
-        System.out.println("Inteligência: " + human.getInteligencia());
-        System.out.println("Constituição: " + human.getConstituicao());
-        System.out.println("Carisma: " + human.getCarisma());
-        sc.close();
-    }
-
 }
-/* futuro escolher classe
+
+        /*
+futuro escolher classe
         public static Character characterClass(List<Class> allClasses) {
             String class = JOptionPane.showConfirmDialog("Escolha a classe do personagem:");
                 Class slectedClass = null;

@@ -9,14 +9,8 @@ public abstract class PericiaBonus implements Skills {
         this.name = name;
         this.bonus = bonus;
     }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
     public int getBonus() {
         return bonus;
     }
+
 }

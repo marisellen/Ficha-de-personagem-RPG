@@ -3,7 +3,6 @@ package races;
 import points.Attributes;
 
 public class Human extends Race implements Attributes {
-    public String race;
     protected int forca;
     protected int destreza;
     protected int inteligencia;
@@ -14,18 +13,22 @@ public class Human extends Race implements Attributes {
         super("Human");
     }
 
-    @Override
-    public boolean visaoNoEscuro() {
+    public static Object getName() {
+    return "Human";
+    }
+
+    public boolean hasDarkVision() {
         return false;
     }
-    @Override
-    public int deslocamento() {
-        return 0;
+    public int deslocamento(int des){
+        return 6;
     }
+
     @Override
-    public String getName() {
-        return null;
+    public String getRaceName() {
+        return "Human";
     }
+
     // **********************************************************
     @Override
     public int getForca() {
@@ -48,20 +51,12 @@ public class Human extends Race implements Attributes {
         return carisma;
     }
     // **********************************************************
-    public void setForca(int forca) {
-        this.forca = forca;
+    public static void setForca(int forca){}
+    public static void setDestreza(int destreza){}
+    public static void setInteligencia(int inteligencia){}
+    public static void setConstituicao(int constituicao){
     }
-    public void setDestreza(int destreza) {
-        this.destreza = destreza;
-    }
-    public void setInteligencia(int inteligencia) {
-        this.inteligencia = inteligencia;
-    }
-    public void setConstituicao(int constituicao) {
-        this.constituicao = constituicao;
-    }
-    public void setCarisma(int carisma) {
-        this.carisma = carisma;
+    public static void setCarisma(int carisma){
     }
     // **********************************************************
     @Override
@@ -101,7 +96,7 @@ public class Human extends Race implements Attributes {
         return 0;
     }
     @Override
-    public int Intimidação() {
+    public int Intimidacao() {
         return 0;
     }
     @Override
