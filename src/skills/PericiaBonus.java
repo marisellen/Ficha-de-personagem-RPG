@@ -12,5 +12,4 @@ public abstract class PericiaBonus implements Skills {
     public int getBonus() {
         return bonus;
     }
-
 }

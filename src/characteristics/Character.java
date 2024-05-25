@@ -1,7 +1,7 @@
 package characteristics;
 
-import races.Human;
 import races.Race;
+import skills.Craft;
 
 // classe das caracteristicas do personagem
 public class Character {
@@ -9,6 +9,7 @@ public class Character {
     public double age;
     public double height;
     private Race race;
+    private Craft craft;
 
     public Character(String name) {
         this.name = name;
@@ -21,6 +22,13 @@ public class Character {
     }
     public Race getRace() {
         return race;
+    }
+    public Craft setCraft(Craft profEscolhida) {
+        this.craft = profEscolhida;
+        return craft;
+    }
+    public Craft getCraft() {
+        return craft;
     }
 
     //**********************************************
@@ -35,7 +43,4 @@ public class Character {
         this.behavior = behavior;
         this.appearance = appearance;
     }
-    public Character(Human human) {
-    }
-
 }

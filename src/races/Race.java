@@ -1,9 +1,8 @@
 package races;
 // classe pai das raças
-import view.interChar;
 import skills.Skills;
 
-public abstract class Race implements interChar, Skills {
+public abstract class Race implements Skills {
     public static String name;
     private Race race;
     public static int deslocamento;
@@ -13,7 +12,6 @@ public abstract class Race implements interChar, Skills {
     public Race(String name) {
         Race.name = name;
     }
-
 
     public abstract String getRaceName();
     public Race getRace() {
