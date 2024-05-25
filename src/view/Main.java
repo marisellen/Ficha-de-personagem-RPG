@@ -2,6 +2,7 @@ package view;
 
 import java.util.Scanner;
 import characteristics.Character;
+import points.StatusBar;
 import races.*;
 import skills.*;
 import classes.*;
@@ -26,7 +27,7 @@ public abstract class Main {
         System.out.println(STR."Profissão do personagem: \{character.getCraft().getCraftName()}");
 
 /*
-        ClasseModel characterStatus = new ClasseModel();
+        StatusBar characterStatus = new StatusBar();
 
         // Manipula EXP e HP
         characterStatus.manipulateStats(0 ,0 );
@@ -199,34 +200,27 @@ public abstract class Main {
 
     return character;
 }
-
-
-    // Método manipular EXP e HP
-    public static Character manipulateStats(double expAmount, int hpAmount, Character character) {
-        ClasseModel.setEXP(character.getClasse(), character.getClasse().getEXP() + expAmount); // Adiciona EXP
-        if (hpAmount > 0) {
-            ClasseModel.addHP(character.getClasse(), hpAmount); // Adiciona HP se for positivo
-        } else {
-            ClasseModel.subtractHP(character.getClasse(), -hpAmount); // Subtrai HP se for negativo
-        }
-        return character;
-    }
+    // Caracteristicas
+/*
+        System.out.print("Digite a altura do personagem:");
+        System.out.print("Digite o comportamento do personagem:");
+        System.out.print("Descreva a aparência do personagem:");
+        System.out.println("Descreva as roupas do personagem:");
+  */
 
 
 }
-/*
-// futuro caracteristicas
-        System.out.print("Digite a altura do personagem:");
-        charObj.height = sc.nextDouble();
 
-        System.out.print("Digite o comportamento do personagem:");
-        charObj.behavior = sc.nextLine();
+    // Método manipular EXP e HP
+  /* public static Character manipulateStats(double expAmount, int hpAmount, Character character) {
+        StatusBar.setEXP(character.getClasse(), character.getClasse(), StatusBar.getEXP() + expAmount); // Adiciona EXP
+        if (hpAmount > 0) {
+            StatusBar.addHP(character.getClasse(), hpAmount); // Adiciona HP se for positivo
+        } else {
+            StatusBar.subtractHP(character.getClasse(), -hpAmount); // Subtrai HP se for negativo
+        }
+        return character;}
 
-        System.out.print("Descreva a aparência do personagem:");
-        charObj.appearance = sc.nextLine();
-
-        System.out.println("Descreva as roupas do personagem:");
-        charObj.clothes = sc.nextLine();
 // futuro idiomas
         System.out.print("\nDigite os idiomas que o personagem fala:");
     charObj.idioms = sc.nextLine();

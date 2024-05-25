@@ -26,9 +26,6 @@ public class Character {
     public Race getRace() {
         return race;
     }
-    public ClasseModel setClasse() {
-        return classe;
-    }
     public void setClasse(ClasseModel classe) {
         this.classe = classe;
     }
