@@ -1,5 +1,6 @@
 package characteristics;
 
+import classes.ClasseModel;
 import races.Race;
 import skills.Craft;
 
@@ -10,10 +11,12 @@ public class Character {
     public double height;
     private Race race;
     private Craft craft;
+    public ClasseModel classe;
 
     public Character(String name) {
         this.name = name;
     }
+
     public String getName() {
         return name;
     }
@@ -23,6 +26,12 @@ public class Character {
     public Race getRace() {
         return race;
     }
+    public ClasseModel setClasse() {
+        return classe;
+    }
+    public void setClasse(ClasseModel classe) {
+        this.classe = classe;
+    }
     public Craft setCraft(Craft profEscolhida) {
         this.craft = profEscolhida;
         return craft;
@@ -30,8 +39,12 @@ public class Character {
     public Craft getCraft() {
         return craft;
     }
-
+    public ClasseModel getClasse() {
+        return classe;
+    }
     //**********************************************
+
+
     public Character(String clothes,double age, double height){
         this.height = height;
         this.age = age;
@@ -43,4 +56,6 @@ public class Character {
         this.behavior = behavior;
         this.appearance = appearance;
     }
+
+
 }

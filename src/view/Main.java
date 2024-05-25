@@ -5,9 +5,10 @@ import characteristics.Character;
 import races.*;
 import skills.*;
 import classes.*;
-import points.*;
 
 public abstract class Main {
+    private static final double EXP = 0;
+
     public static void main(String[] args) {
         System.out.println("----------------------------");
         System.out.println("Ficha personagem");
@@ -16,11 +17,23 @@ public abstract class Main {
         Character character = makeCharacter();
         character = characterRace(character);
         character = choiceCraft(character);
+        character = characterClass(character);
 
 
-        System.out.println("Personagem criado: " + character.getName());
-        System.out.println("Raça do personagem: " + character.getRace().getRaceName());
-        System.out.println("Profissão do personagem: " + character.getCraft().getCraftName());
+        System.out.println(STR."Personagem criado: \{character.getName()}");
+        System.out.println(STR."Raça do personagem: \{character.getRace().getRaceName()}");
+        System.out.println(STR."Classe do personagem: \{character.getClasse().getClasseName()}");
+        System.out.println(STR."Profissão do personagem: \{character.getCraft().getCraftName()}");
+
+/*
+        ClasseModel characterStatus = new ClasseModel();
+
+        // Manipula EXP e HP
+        characterStatus.manipulateStats(0 ,0 );
+        System.out.println(STR."Level: \{characterStatus.getLevel()}");
+        System.out.println(STR."HP: \{characterStatus.getHP()}");
+        System.out.println(STR."Is alive: \{characterStatus.isAlive()}"); // Saída: Is alive: false
+*/
     }
 
     // Método de criação
@@ -93,6 +106,57 @@ public abstract class Main {
 
         return character;
     }
+    // Método escolher classe
+    public static Character characterClass(Character character){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Escolha a classe do personagem:");
+        System.out.println("1. Archer");
+        System.out.println("2. Bard");
+        System.out.println("3. Cleric");
+        System.out.println("4. Druid");
+        System.out.println("5. Mage");
+        System.out.println("6. Necromancer");
+        System.out.println("7. Paladin");
+        System.out.println("8. Rogue");
+        System.out.println("9. Warrior");
+
+        int chose = scanner.nextInt();
+        ClasseModel classeEscolhida = null;
+
+        switch (chose) {
+            case 1:
+                classeEscolhida = new Archer("Arqueiro");
+                break;
+            case 2:
+                classeEscolhida = new Bard("Bardo");
+                break;
+            case 3:
+                classeEscolhida = new Cleric("Clérigo");
+                break;
+            case 4:
+                classeEscolhida = new Druid("Druida");
+                break;
+            case 5:
+                classeEscolhida = new Mage("Mage");
+                break;
+            case 6:
+                classeEscolhida = new Necromancer("Necromante");
+                break;
+            case 7:
+                classeEscolhida = new Paladin("Paladino");
+                break;
+            case 8:
+                classeEscolhida = new Rogue("Ladino");
+                break;
+            case 9:
+                classeEscolhida = new Warrior("Guerreiro");
+                break;
+            default:
+                System.out.println("Escolha inválida.");}
+
+        character.setClasse(classeEscolhida); // Definir a classe no personagem.
+        return character;
+    }
     // Escolher a profissão
     public static Character choiceCraft(Character character) {
     Scanner scanner = new Scanner(System.in);
@@ -135,7 +199,18 @@ public abstract class Main {
 
     return character;
 }
-    // Método escolher classe
+
+
+    // Método manipular EXP e HP
+    public static Character manipulateStats(double expAmount, int hpAmount, Character character) {
+        ClasseModel.setEXP(character.getClasse(), character.getClasse().getEXP() + expAmount); // Adiciona EXP
+        if (hpAmount > 0) {
+            ClasseModel.addHP(character.getClasse(), hpAmount); // Adiciona HP se for positivo
+        } else {
+            ClasseModel.subtractHP(character.getClasse(), -hpAmount); // Subtrai HP se for negativo
+        }
+        return character;
+    }
 
 
 }

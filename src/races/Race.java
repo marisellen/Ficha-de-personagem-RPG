@@ -4,15 +4,14 @@ import skills.Skills;
 
 public abstract class Race implements Skills {
     public static String name;
-    private Race race;
     public static int deslocamento;
     public static boolean visaoNoEscuro;
+    private Race race;
 
     // Construtor
     public Race(String name) {
         Race.name = name;
     }
-
     public abstract String getRaceName();
     public Race getRace() {
         return race;

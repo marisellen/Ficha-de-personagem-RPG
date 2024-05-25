@@ -17,7 +17,6 @@ public class Dragonborn extends Race implements Attributes {
     public String getRaceName() {
         return "Dragonborn";
     }
-
     @Override
     public int getForca() {
         return 2;
