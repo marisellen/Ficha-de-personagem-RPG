@@ -1,11 +1,14 @@
 package view;
 
 import java.util.Scanner;
+import java.util.NoSuchElementException;
 import characteristics.Character;
-//import points.StatusBar;
+import points.StatusBar;
 import races.*;
 import skills.*;
 import classes.*;
+
+import static java.lang.System.in;
 
 public abstract class Main {
     public static void main(String[] args) {
@@ -18,7 +21,7 @@ public abstract class Main {
         character = characterClass(character);
         character = choiceCraft(character);
         character = choiceCharacteristcs(character);
-        character = addIdioms(character);
+        character = idionsAdd(character);
 
         System.out.println(STR."Personagem criado: \{character.getName()}");
         System.out.println(STR."Raça do personagem: \{character.getRace().getRaceName()}");
@@ -26,7 +29,7 @@ public abstract class Main {
         System.out.println(STR."Profissão do personagem: \{character.getCraft().getCraftName()}");
         System.out.println(STR."Alinhamento do personagem: \{character.getAlignment()}");
         System.out.println(STR."Idiomas do personagem: \{character.getLanguages()}");
-/*
+
         StatusBar characterStatus = new StatusBar();
 
         // Manipula EXP e HP
@@ -34,12 +37,12 @@ public abstract class Main {
         System.out.println(STR."Level: \{characterStatus.getLevel()}");
         System.out.println(STR."HP: \{characterStatus.getHP()}");
         System.out.println(STR."Is alive: \{characterStatus.isAlive()}"); // Saída: Is alive: false
-*/
+
     }
 
     // Método de criação
     public static Character makeCharacter() {
-        Scanner sc = new Scanner(System.in);
+        Scanner sc = new Scanner(in);
         System.out.print("Digite o nome do personagem: ");
         String name = sc.nextLine();
         return new Character(name);
@@ -47,7 +50,7 @@ public abstract class Main {
 
     // Método escolher raça
     public static Character characterRace(Character character) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(in);
         System.out.println("Escolha a raça do personagem:");
         System.out.println("1. Dwarf");
         System.out.println("2. Dragonborn");
@@ -111,7 +114,7 @@ public abstract class Main {
 
     // Método escolher classe
     public static Character characterClass(Character character) {
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(in);
         System.out.println("Escolha a classe do personagem:");
         System.out.println("1. Archer");
         System.out.println("2. Bard");
@@ -164,7 +167,7 @@ public abstract class Main {
 
     public static Character choiceCraft(Character character) {
         // Escolher a profissão
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(in);
         System.out.println("Escolha a profissão do personagem:");
         System.out.println("1. Ferreiro");
         System.out.println("2. Artesão");
@@ -207,7 +210,7 @@ public abstract class Main {
 
     // Caracteristicas
     public static Character choiceCharacteristcs(Character character) {
-        Scanner scan = new Scanner(System.in);
+        Scanner scan = new Scanner(in);
 
         System.out.println("Digite a idade e depois a altura do personagem:");
         int age = scan.nextInt();
@@ -273,17 +276,26 @@ public abstract class Main {
         if (alinhaEscolhido != null) {
             character.setAlignment(alinhaEscolhido);
         }
-        scan.close();
         return character;
     }
 
     // Idiomas
-    public static Character addIdioms(Character character) {
-        Scanner scan = new Scanner(System.in);
+    public static Character idionsAdd(Character character){
+        Scanner sca = new Scanner(System.in);
 
-        System.out.println("Digite os idiomas que o personagem fala:");
-        String idioms = scan.nextLine();
+        System.out.println("Digite os idiomas que o personagem fala, separados em vírgula");
+        String idioms = sca.nextLine();
+        idioms = sca.nextLine();
         character.setLanguages(idioms);
+        sca.close();
         return character;
     }
+
+    // Barra de estatus
+    public static Character manipulateStats(){
+
+
+    }
+
+
 }
