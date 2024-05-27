@@ -30,14 +30,16 @@ public abstract class Main {
         System.out.println(STR."Alinhamento do personagem: \{character.getAlignment()}");
         System.out.println(STR."Idiomas do personagem: \{character.getLanguages()}");
 
-        StatusBar characterStatus = new StatusBar();
+        StatusBar characterStatus = new StatusBar(50, 0, 20, 30, 0, 0);
 
         // Manipula EXP e HP
-        characterStatus.manipulateStats(0 ,0 );
+        characterStatus.manipulateStats();
         System.out.println(STR."Level: \{characterStatus.getLevel()}");
         System.out.println(STR."HP: \{characterStatus.getHP()}");
-        System.out.println(STR."Is alive: \{characterStatus.isAlive()}"); // Saída: Is alive: false
-
+        System.out.println(STR."Magic: \{characterStatus.getMP()}");
+        System.out.println(STR."Stamina: \{characterStatus.getPE()}");
+        System.out.println(STR."Constitution: \{characterStatus.getPC()}");
+        System.out.println(STR."Skill points: \{characterStatus.getPH()}");
     }
 
     // Método de criação
@@ -290,12 +292,5 @@ public abstract class Main {
         sca.close();
         return character;
     }
-
-    // Barra de estatus
-    public static Character manipulateStats(){
-
-
-    }
-
 
 }

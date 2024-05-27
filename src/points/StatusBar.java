@@ -2,9 +2,9 @@ package points;
 
 public class StatusBar {
     private int level = 0;
-    private static int HP = 50;
+    private int HP = 50;
     private int MP = 30;
-    private static int XP = 0;
+    private int XP = 0;
     private int PE;
     private int PC;
     private int PH;
@@ -24,6 +24,7 @@ public class StatusBar {
         this.PE = pe;
         this.PC = pc;
         this.PH = ph;
+        updateLevel(); // Atualiza o nível baseado na XP inicial
     }
 
     // Tabela de Níveis
@@ -57,121 +58,123 @@ public class StatusBar {
     public int getLevel() {
         return level;
     }
-    public void setXP(double XP) {
-        XP = XP;
+
+    public void setXP(int XP) {
+        this.XP = XP;
         updateLevel(); // Atualiza o nível sempre que a XP é definida
     }
-    public static double getEXP() {
+
+    public int getXP() {
         return XP;
     }
 
     // Pontos de Vida
-
     // Getters e setters para pontos de vida
     public void setHP(int HP) {
-        HP = HP;
-        if (HP < 0) {
-            HP = 0; // Evita HP negativo
+        this.HP = HP;
+        if (this.HP < 0) {
+            this.HP = 0; // Evita HP negativo
         }
     }
+
     public int getHP() {
         return HP;
     }
 
-    // Métodos para manipulação dos pontos de vida (HP)
-    public static void addHP(int amount) {
+    // Métodos para manipulação dos pontos de vida
+    public void addHP(int amount) {
         HP += amount;
     }
-    public static void subtractHP(int amount) {
+
+    public void subtractHP(int amount) {
         HP -= amount;
         if (HP < 0) {
             HP = 0;
         }
     }
+
     public boolean isAlive() {
         return HP > 0;
     }
 
-// Pontos de magia
-
-    public int getMp() {
+    // Pontos de Magia
+    // Getters e setters de pontos de magia
+    public int getMP() {
         return MP;
     }
 
-    public void setMp(int mp) {
-        this.MP = mp;
+    public void setMP(int MP) {
+        this.MP = MP;
     }
 
-    public void useMagia(int valor) {
-        this.MP = Math.max(0, this.MP - valor);
+    // Métodos para manipulação dos pontos de magia
+    public void useMagic(int valor) {
+        MP = Math.max(0, MP - valor);
     }
 
-    public void recMp(int valor) {
-        this.MP += valor;
+    public void recMP(int valor) {
+        MP += valor;
     }
 
-
-
-    // Pontos de Stamina
-
-    public int getPe() {
-    return PE;
-}
-
-    public void setPe(int pe) {
-        this.PE = pe;
+    public void manipulateMagic(int valor) {
+        MP += valor;
+        if (MP < 0) {
+            MP = 0; // Evita MP negativo
+        }
     }
 
-    public void losePe(int valor) {
-        this.PE = Math.max(0, this.PE - valor);
+    // Pontos de Estamina
+    // Getters e setters de pontos de estamina
+    public int getPE() {
+        return PE;
     }
 
-    public void addPe(int valor) {PE += valor;
+    public void setPE(int PE) {
+        this.PE = PE;
     }
 
+    public void losePE(int valor) {
+        PE = Math.max(0, PE - valor);
+    }
+
+    public void addPE(int valor) {
+        PE += valor;
+    }
 
     // Pontos de Constituição
-
-
-    public int getPc() {
+    // Getters e setters de pontos de constituição
+    public int getPC() {
         return PC;
     }
 
-    public void setPc(int pc) {
-        this.PC = pc;
+    public void setPC(int PC) {
+        this.PC = PC;
     }
 
-    public void aumentarPc(int valor) {
-        this.PC += valor;
+    public void increasePC(int valor) {
+        PC += valor;
     }
-
-
 
     // Pontos de Habilidade
-
-
-
-    public int getPh() {
+    // Getters e setters de pontos de habilidade
+    public int getPH() {
         return PH;
     }
 
-    public void setPh(int ph) {
-        this.PH = ph;
+    public void setPH(int PH) {
+        this.PH = PH;
     }
 
-    public void addPh(int valor) {
-        this.PH = valor;
+    public void addPH(int valor) {
+        PH += valor;
     }
 
-
-
-
-
-
-
+    public void manipulateHabil(int valor) {
+        PH += valor;
+    }
 
     // Método para exibir o status do personagem
-    public void exibirStatus() {
+    public void manipulateStats() {
         System.out.println("Status do Personagem:");
         System.out.println("HP: " + HP);
         System.out.println("XP: " + XP);
