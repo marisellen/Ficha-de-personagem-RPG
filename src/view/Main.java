@@ -2,14 +2,12 @@ package view;
 
 import java.util.Scanner;
 import characteristics.Character;
-import points.StatusBar;
+//import points.StatusBar;
 import races.*;
 import skills.*;
 import classes.*;
 
 public abstract class Main {
-    private static final double EXP = 0;
-
     public static void main(String[] args) {
         System.out.println("----------------------------");
         System.out.println("Ficha personagem");
@@ -17,15 +15,17 @@ public abstract class Main {
 
         Character character = makeCharacter();
         character = characterRace(character);
-        character = choiceCraft(character);
         character = characterClass(character);
-
+        character = choiceCraft(character);
+        character = choiceCharacteristcs(character);
+        character = addIdioms(character);
 
         System.out.println(STR."Personagem criado: \{character.getName()}");
         System.out.println(STR."Raça do personagem: \{character.getRace().getRaceName()}");
         System.out.println(STR."Classe do personagem: \{character.getClasse().getClasseName()}");
         System.out.println(STR."Profissão do personagem: \{character.getCraft().getCraftName()}");
-
+        System.out.println(STR."Alinhamento do personagem: \{character.getAlignment()}");
+        System.out.println(STR."Idiomas do personagem: \{character.getLanguages()}");
 /*
         StatusBar characterStatus = new StatusBar();
 
@@ -41,9 +41,10 @@ public abstract class Main {
     public static Character makeCharacter() {
         Scanner sc = new Scanner(System.in);
         System.out.print("Digite o nome do personagem: ");
-        String name = sc.next();
+        String name = sc.nextLine();
         return new Character(name);
     }
+
     // Método escolher raça
     public static Character characterRace(Character character) {
         Scanner scanner = new Scanner(System.in);
@@ -107,8 +108,9 @@ public abstract class Main {
 
         return character;
     }
+
     // Método escolher classe
-    public static Character characterClass(Character character){
+    public static Character characterClass(Character character) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Escolha a classe do personagem:");
         System.out.println("1. Archer");
@@ -153,75 +155,135 @@ public abstract class Main {
                 classeEscolhida = new Warrior("Guerreiro");
                 break;
             default:
-                System.out.println("Escolha inválida.");}
+                System.out.println("Escolha inválida.");
+        }
 
         character.setClasse(classeEscolhida); // Definir a classe no personagem.
         return character;
     }
-    // Escolher a profissão
+
     public static Character choiceCraft(Character character) {
-    Scanner scanner = new Scanner(System.in);
-    System.out.println("Escolha a profissão do personagem:");
-    System.out.println("1. Ferreiro");
-    System.out.println("2. Artesão");
-    System.out.println("3. Alquimista");
-    System.out.println("4. Construtor");
-    System.out.println("5. Padre");
-    System.out.println("6. Explorador");
+        // Escolher a profissão
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Escolha a profissão do personagem:");
+        System.out.println("1. Ferreiro");
+        System.out.println("2. Artesão");
+        System.out.println("3. Alquimista");
+        System.out.println("4. Construtor");
+        System.out.println("5. Padre");
+        System.out.println("6. Explorador");
 
-    int escolha = scanner.nextInt();
-    Craft profEscolhida = null;
+        int escolha = scanner.nextInt();
+        Craft profEscolhida = null;
 
-    switch (escolha) {
-        case 1:
-            profEscolhida = Craft.FERREIRO;
-            break;
-        case 2:
-            profEscolhida = Craft.ARTESAO;
-            break;
-        case 3:
-            profEscolhida = Craft.ALQUIMISTA;
-            break;
-        case 4:
-            profEscolhida = Craft.CONSTRUTOR;
-            break;
-        case 5:
-            profEscolhida = Craft.PADRE;
-            break;
-        case 6:
-            profEscolhida = Craft.EXPLORADOR;
-            break;
-        default:
-            System.out.println("Escolha inválida.");
-            return character; // Retorna o personagem sem a se a escolha for inválida.
+        switch (escolha) {
+            case 1:
+                profEscolhida = Craft.FERREIRO;
+                break;
+            case 2:
+                profEscolhida = Craft.ARTESAO;
+                break;
+            case 3:
+                profEscolhida = Craft.ALQUIMISTA;
+                break;
+            case 4:
+                profEscolhida = Craft.CONSTRUTOR;
+                break;
+            case 5:
+                profEscolhida = Craft.PADRE;
+                break;
+            case 6:
+                profEscolhida = Craft.EXPLORADOR;
+                break;
+            default:
+                System.out.println("Escolha inválida.");
+                return character; // Retorna o personagem sem a se a escolha for inválida.
+        }
+
+        character.setCraft(profEscolhida);
+
+        return character;
     }
 
-    character.setCraft(profEscolhida);
-
-    return character;
-}
     // Caracteristicas
-/*
-        System.out.print("Digite a altura do personagem:");
-        System.out.print("Digite o comportamento do personagem:");
-        System.out.print("Descreva a aparência do personagem:");
+    public static Character choiceCharacteristcs(Character character) {
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("Digite a idade e depois a altura do personagem:");
+        int age = scan.nextInt();
+        double height = scan.nextDouble();
+        character.setAge(age);
+        character.setHeight(height);
+
+        scan.nextLine();
+
+        System.out.println("Descreva a aparência do personagem:");
+        String appearance = scan.nextLine();
+        character.setAppearance(appearance);
+
         System.out.println("Descreva as roupas do personagem:");
-  */
+        String clothes = scan.nextLine();
+        character.setClothes(clothes);
 
+        System.out.print("Escolha o alinhamento do personagem:");
+        System.out.println("1. Leal bom");
+        System.out.println("2. Neutro bom");
+        System.out.println("3. Caótico bom");
+        System.out.println("4. Neutro bom");
+        System.out.println("5. Neutro Verdadeiro");
+        System.out.println("6. Neutro Caótico");
+        System.out.println("7. Caótico bom");
+        System.out.println("8. Caótico neutro");
+        System.out.println("9. Caótico mal");
 
-}
+        int allin = scan.nextInt();
+        String alinhaEscolhido = null;
 
-    // Método manipular EXP e HP
-  /* public static Character manipulateStats(double expAmount, int hpAmount, Character character) {
-        StatusBar.setEXP(character.getClasse(), character.getClasse(), StatusBar.getEXP() + expAmount); // Adiciona EXP
-        if (hpAmount > 0) {
-            StatusBar.addHP(character.getClasse(), hpAmount); // Adiciona HP se for positivo
-        } else {
-            StatusBar.subtractHP(character.getClasse(), -hpAmount); // Subtrai HP se for negativo
+        switch (allin) {
+            case 1:
+                alinhaEscolhido = "Leal bom";
+                break;
+            case 2:
+                alinhaEscolhido = "Neutro bom";
+                break;
+            case 3:
+                alinhaEscolhido = "Caótico Bom";
+                break;
+            case 4:
+                alinhaEscolhido = "Neutro leal";
+                break;
+            case 5:
+                alinhaEscolhido = "Neutro Verdadeiro";
+                break;
+            case 6:
+                alinhaEscolhido = "Neutro Caótico";
+                break;
+            case 7:
+                alinhaEscolhido = "Leal Mal";
+                break;
+            case 8:
+                alinhaEscolhido = "Neutro Mal";
+                break;
+            case 9:
+                alinhaEscolhido = "Caótico Mal";
+                break;
+            default:
+                System.out.println("Escolha inválida.");
         }
-        return character;}
+        if (alinhaEscolhido != null) {
+            character.setAlignment(alinhaEscolhido);
+        }
+        scan.close();
+        return character;
+    }
 
-// futuro idiomas
-        System.out.print("\nDigite os idiomas que o personagem fala:");
-    charObj.idioms = sc.nextLine();
-*/
+    // Idiomas
+    public static Character addIdioms(Character character) {
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("Digite os idiomas que o personagem fala:");
+        String idioms = scan.nextLine();
+        character.setLanguages(idioms);
+        return character;
+    }
+}
