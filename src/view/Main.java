@@ -7,6 +7,7 @@ import points.StatusBar;
 import races.*;
 import skills.*;
 import classes.*;
+import inventory.*;
 
 import static java.lang.System.in;
 
@@ -40,6 +41,11 @@ public abstract class Main {
         System.out.println(STR."Stamina: \{characterStatus.getPE()}");
         System.out.println(STR."Constitution: \{characterStatus.getPC()}");
         System.out.println(STR."Skill points: \{characterStatus.getPH()}");
+
+        // Inventário
+        Bag bolsa = invent();
+        System.out.println("Itens na bolsa:");
+        System.out.println(bolsa);
     }
 
     // Método de criação
@@ -289,8 +295,41 @@ public abstract class Main {
         String idioms = sca.nextLine();
         idioms = sca.nextLine();
         character.setLanguages(idioms);
-        sca.close();
+
         return character;
+    }
+
+    // Inventário
+    public static Bag invent() {
+        Scanner ler = new Scanner(System.in);
+        Bag bolsa = new Bag();
+
+        System.out.println("Adicione os três itens iniciais a sua bolsa:");
+
+        System.out.print("Item 1 nome: ");
+        String nome1 = ler.nextLine();
+        System.out.print("Item 1 quantidade: ");
+        int qtd1 = ler.nextInt();
+        ler.nextLine();
+
+        System.out.print("Item 2 nome: ");
+        String nome2 = ler.nextLine();
+        System.out.print("Item 2 quantidade: ");
+        int qtd2 = ler.nextInt();
+        ler.nextLine();
+
+        System.out.print("Item 3 nome: ");
+        String nome3 = ler.nextLine();
+        System.out.print("Item 3 quantidade: ");
+        int qtd3 = ler.nextInt();
+        ler.nextLine();
+
+        bolsa.addItem(new Items(nome1, qtd1));
+        bolsa.addItem(new Items(nome2, qtd2));
+        bolsa.addItem(new Items(nome3, qtd3));
+
+        ler.close();
+        return bolsa;
     }
 
 }
