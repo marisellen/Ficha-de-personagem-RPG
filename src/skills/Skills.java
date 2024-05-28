@@ -1,8 +1,6 @@
 package skills;
 // Interface de pericias
 public interface Skills {
-    // auxiliares
-    String getName();
 
     // pericias
     public int Acrobacia();
@@ -14,7 +12,7 @@ public interface Skills {
     public int Exploracao();
     public int Furtividade();
     public int Iniciativa();
-    public int Intimidação();
+    public int Intimidacao();
     public int Investigacao();
     public int Ladinagem();
     public int Natureza();

@@ -1,41 +1,88 @@
 package characteristics;
 
-import races.Human;
+import classes.ClasseModel;
 import races.Race;
+import skills.Craft;
 
 // classe das caracteristicas do personagem
 public class Character {
-    public String name, behavior, clothes, idioms, appearance;
-    public double age;
+    public String name, alignment, clothes, idioms, appearance;
+    public int age;
     public double height;
     private Race race;
+    private Craft craft;
+    public ClasseModel classe;
 
     public Character(String name) {
         this.name = name;
     }
+
     public String getName() {
         return name;
-    }
-    public void setRace(Race race) {
-        this.race = race;
     }
     public Race getRace() {
         return race;
     }
+    public void setRace(Race race) {
+        this.race = race;
+    }
 
-    //**********************************************
-    public Character(String clothes,double age, double height){
-        this.height = height;
+    public ClasseModel getClasse() {
+        return classe;
+    }
+    public void setClasse(ClasseModel classe) {
+        this.classe = classe;
+    }
+
+    public Craft getCraft() {
+        return craft;
+    }
+    public Craft setCraft(Craft profEscolhida) {
+        this.craft = profEscolhida;
+        return craft;
+    }
+
+    public String getAlignment(){
+        return alignment;
+    }
+    public String setAlignment(String alignment ){
+        this.alignment = alignment;
+        return alignment;
+    }
+
+    public int getAge(){
+        return age;
+    }
+    public double getHeight(){
+        return height;
+    }
+    public void setAge(int age) {
         this.age = age;
+    }
+    public void setHeight(double height) {
+        this.height = height;
+    }
+
+    public String getApparence(){
+        return appearance;
+    }
+    public String setAppearance(String appearance){
+        this.appearance = appearance;
+        return appearance;
+    }
+
+    public String getClothes(){
+        return clothes;
+    }
+    public void setClothes(String clothes) {
         this.clothes = clothes;
     }
 
-    public Character(String behavior, String idioms, String appearance){
-        this.idioms = idioms;
-        this.behavior = behavior;
-        this.appearance = appearance;
+    public String getLanguages(){
+        return idioms;
     }
-    public Character(Human human) {
+    public void setLanguages(String idioms) {
+        this.idioms = idioms;
     }
 
 }

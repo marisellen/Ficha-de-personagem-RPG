@@ -1,116 +1,296 @@
 package view;
 
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Scanner;
-
+import java.util.NoSuchElementException;
 import characteristics.Character;
+import points.StatusBar;
 import races.*;
+import skills.*;
+import classes.*;
 
-public abstract class Main implements interChar {
+import static java.lang.System.in;
 
+public abstract class Main {
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-
         System.out.println("----------------------------");
         System.out.println("Ficha personagem");
         System.out.println("----------------------------");
 
-        // Criar personagem
-        Character charObj = makeCharacter();
+        Character character = makeCharacter();
+        character = characterRace(character);
+        character = characterClass(character);
+        character = choiceCraft(character);
+        character = choiceCharacteristcs(character);
+        character = idionsAdd(character);
 
-        // Lista de raças
-        List<Race> races = new ArrayList<>();
+        System.out.println(STR."Personagem criado: \{character.getName()}");
+        System.out.println(STR."Raça do personagem: \{character.getRace().getRaceName()}");
+        System.out.println(STR."Classe do personagem: \{character.getClasse().getClasseName()}");
+        System.out.println(STR."Profissão do personagem: \{character.getCraft().getCraftName()}");
+        System.out.println(STR."Alinhamento do personagem: \{character.getAlignment()}");
+        System.out.println(STR."Idiomas do personagem: \{character.getLanguages()}");
 
-        // Escolher raça
-        Race selectedRace = characterRace(races);
-        charObj.setRace(selectedRace);
+        StatusBar characterStatus = new StatusBar(50, 0, 20, 30, 0, 0);
 
-        // Caso escoljer humano
-        if (charObj.getRace() instanceof Human) {
-            defineHumanAttributes((Human) charObj.getRace());
-        }
-
-        // futura lista de classes
-       /* List<Class> classes = new ArrayList<Class>();
-        List<Craft> crafts = new ArrayList<Craft>(); */
-
+        // Manipula EXP e HP
+        characterStatus.manipulateStats();
+        System.out.println(STR."Level: \{characterStatus.getLevel()}");
+        System.out.println(STR."HP: \{characterStatus.getHP()}");
+        System.out.println(STR."Magic: \{characterStatus.getMP()}");
+        System.out.println(STR."Stamina: \{characterStatus.getPE()}");
+        System.out.println(STR."Constitution: \{characterStatus.getPC()}");
+        System.out.println(STR."Skill points: \{characterStatus.getPH()}");
     }
 
-    // método de criação
+    // Método de criação
     public static Character makeCharacter() {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Digite o nome do personagem:");
-        String name = sc.next();
+        Scanner sc = new Scanner(in);
+        System.out.print("Digite o nome do personagem: ");
+        String name = sc.nextLine();
         return new Character(name);
     }
 
-    // método escolher raça
-    public static Race characterRace(List<Race> allRaces) {
-        Scanner sc = new Scanner(System.in);
-        String[] raceNames = new String[allRaces.size()];
-        for (int i = 0; i < allRaces.size(); i++) {
-            raceNames[i] = allRaces.get(i).getRaceName();
-        }
+    // Método escolher raça
+    public static Character characterRace(Character character) {
+        Scanner scanner = new Scanner(in);
         System.out.println("Escolha a raça do personagem:");
-        Race selectedRace = null;
-        for (int i = 0; i < raceNames.length; i++) {
-            System.out.println(i + 1 + ". " + raceNames[i]);
+        System.out.println("1. Dwarf");
+        System.out.println("2. Dragonborn");
+        System.out.println("3. Elven");
+        System.out.println("4. Halfling");
+        System.out.println("5. Human");
+        System.out.println("6. Ork");
+        System.out.println("7. Tiefling");
+
+        int escolha = scanner.nextInt();
+        Race racaEscolhida = null;
+
+        switch (escolha) {
+            case 1:
+                racaEscolhida = new Dwarf();
+                break;
+            case 2:
+                racaEscolhida = new Dragonborn();
+                break;
+            case 3:
+                racaEscolhida = new Elven();
+                break;
+            case 4:
+                racaEscolhida = new Halfling();
+                break;
+            case 5:
+                racaEscolhida = new Human();
+                break;
+            case 6:
+                racaEscolhida = new Ork();
+                break;
+            case 7:
+                racaEscolhida = new Tiefling();
+                break;
+            default:
+                System.out.println("Escolha inválida.");
+                return character; // Retorna o personagem sem raça se a escolha for inválida.
         }
-        int selectedRaceIndex = sc.nextInt() - 1;
-        selectedRace = allRaces.get(selectedRaceIndex);
-        return selectedRace;
+
+        character.setRace(racaEscolhida); // Definir a raça no personagem.
+
+        // Caso escolher humano, definir atributos extras.
+        if (racaEscolhida instanceof Human) {
+            Human human = (Human) racaEscolhida;
+            System.out.println("O personagem é um " + human.getName() + ", então os atributos extras podem ser definidos pelo jogador:");
+
+            System.out.print("Força: ");
+            human.setForca(scanner.nextInt());
+            System.out.print("Destreza: ");
+            human.setDestreza(scanner.nextInt());
+            System.out.print("Inteligência: ");
+            human.setInteligencia(scanner.nextInt());
+            System.out.print("Constituição: ");
+            human.setConstituicao(scanner.nextInt());
+            System.out.print("Carisma: ");
+            human.setCarisma(scanner.nextInt());
+        }
+
+        return character;
     }
 
-    // Definir atributos do humano
-    public static void defineHumanAttributes(Human human) {
-        Scanner sc = new Scanner(System.in);
-        System.out.println("O personagem é um " + human.getName() + ", então os atributos extras podem ser definidos pelo jogador:");
+    // Método escolher classe
+    public static Character characterClass(Character character) {
+        Scanner scanner = new Scanner(in);
+        System.out.println("Escolha a classe do personagem:");
+        System.out.println("1. Archer");
+        System.out.println("2. Bard");
+        System.out.println("3. Cleric");
+        System.out.println("4. Druid");
+        System.out.println("5. Mage");
+        System.out.println("6. Necromancer");
+        System.out.println("7. Paladin");
+        System.out.println("8. Rogue");
+        System.out.println("9. Warrior");
 
-        System.out.print("Força: ");
-        human.setForca(sc.nextInt());
-        System.out.print("Destreza: ");
-        human.setDestreza(sc.nextInt());
-        System.out.print("Inteligência: ");
-        human.setInteligencia(sc.nextInt());
-        System.out.print("Constituição: ");
-        human.setConstituicao(sc.nextInt());
-        System.out.print("Carisma: ");
-        human.setCarisma(sc.nextInt());
-        System.out.println("Atributos definidos:");
-        System.out.println("Força: " + human.getForca());
-        System.out.println("Destreza: " + human.getDestreza());
-        System.out.println("Inteligência: " + human.getInteligencia());
-        System.out.println("Constituição: " + human.getConstituicao());
-        System.out.println("Carisma: " + human.getCarisma());
-        sc.close();
+        int chose = scanner.nextInt();
+        ClasseModel classeEscolhida = null;
+
+        switch (chose) {
+            case 1:
+                classeEscolhida = new Archer("Arqueiro");
+                break;
+            case 2:
+                classeEscolhida = new Bard("Bardo");
+                break;
+            case 3:
+                classeEscolhida = new Cleric("Clérigo");
+                break;
+            case 4:
+                classeEscolhida = new Druid("Druida");
+                break;
+            case 5:
+                classeEscolhida = new Mage("Mage");
+                break;
+            case 6:
+                classeEscolhida = new Necromancer("Necromante");
+                break;
+            case 7:
+                classeEscolhida = new Paladin("Paladino");
+                break;
+            case 8:
+                classeEscolhida = new Rogue("Ladino");
+                break;
+            case 9:
+                classeEscolhida = new Warrior("Guerreiro");
+                break;
+            default:
+                System.out.println("Escolha inválida.");
+        }
+
+        character.setClasse(classeEscolhida); // Definir a classe no personagem.
+        return character;
+    }
+
+    public static Character choiceCraft(Character character) {
+        // Escolher a profissão
+        Scanner scanner = new Scanner(in);
+        System.out.println("Escolha a profissão do personagem:");
+        System.out.println("1. Ferreiro");
+        System.out.println("2. Artesão");
+        System.out.println("3. Alquimista");
+        System.out.println("4. Construtor");
+        System.out.println("5. Padre");
+        System.out.println("6. Explorador");
+
+        int escolha = scanner.nextInt();
+        Craft profEscolhida = null;
+
+        switch (escolha) {
+            case 1:
+                profEscolhida = Craft.FERREIRO;
+                break;
+            case 2:
+                profEscolhida = Craft.ARTESAO;
+                break;
+            case 3:
+                profEscolhida = Craft.ALQUIMISTA;
+                break;
+            case 4:
+                profEscolhida = Craft.CONSTRUTOR;
+                break;
+            case 5:
+                profEscolhida = Craft.PADRE;
+                break;
+            case 6:
+                profEscolhida = Craft.EXPLORADOR;
+                break;
+            default:
+                System.out.println("Escolha inválida.");
+                return character; // Retorna o personagem sem a se a escolha for inválida.
+        }
+
+        character.setCraft(profEscolhida);
+
+        return character;
+    }
+
+    // Caracteristicas
+    public static Character choiceCharacteristcs(Character character) {
+        Scanner scan = new Scanner(in);
+
+        System.out.println("Digite a idade e depois a altura do personagem:");
+        int age = scan.nextInt();
+        double height = scan.nextDouble();
+        character.setAge(age);
+        character.setHeight(height);
+
+        scan.nextLine();
+
+        System.out.println("Descreva a aparência do personagem:");
+        String appearance = scan.nextLine();
+        character.setAppearance(appearance);
+
+        System.out.println("Descreva as roupas do personagem:");
+        String clothes = scan.nextLine();
+        character.setClothes(clothes);
+
+        System.out.print("Escolha o alinhamento do personagem:");
+        System.out.println("1. Leal bom");
+        System.out.println("2. Neutro bom");
+        System.out.println("3. Caótico bom");
+        System.out.println("4. Neutro bom");
+        System.out.println("5. Neutro Verdadeiro");
+        System.out.println("6. Neutro Caótico");
+        System.out.println("7. Caótico bom");
+        System.out.println("8. Caótico neutro");
+        System.out.println("9. Caótico mal");
+
+        int allin = scan.nextInt();
+        String alinhaEscolhido = null;
+
+        switch (allin) {
+            case 1:
+                alinhaEscolhido = "Leal bom";
+                break;
+            case 2:
+                alinhaEscolhido = "Neutro bom";
+                break;
+            case 3:
+                alinhaEscolhido = "Caótico Bom";
+                break;
+            case 4:
+                alinhaEscolhido = "Neutro leal";
+                break;
+            case 5:
+                alinhaEscolhido = "Neutro Verdadeiro";
+                break;
+            case 6:
+                alinhaEscolhido = "Neutro Caótico";
+                break;
+            case 7:
+                alinhaEscolhido = "Leal Mal";
+                break;
+            case 8:
+                alinhaEscolhido = "Neutro Mal";
+                break;
+            case 9:
+                alinhaEscolhido = "Caótico Mal";
+                break;
+            default:
+                System.out.println("Escolha inválida.");
+        }
+        if (alinhaEscolhido != null) {
+            character.setAlignment(alinhaEscolhido);
+        }
+        return character;
+    }
+
+    // Idiomas
+    public static Character idionsAdd(Character character){
+        Scanner sca = new Scanner(System.in);
+
+        System.out.println("Digite os idiomas que o personagem fala, separados em vírgula");
+        String idioms = sca.nextLine();
+        idioms = sca.nextLine();
+        character.setLanguages(idioms);
+        sca.close();
+        return character;
     }
 
 }
-/* futuro escolher classe
-        public static Character characterClass(List<Class> allClasses) {
-            String class = JOptionPane.showConfirmDialog("Escolha a classe do personagem:");
-                Class slectedClass = null;
-            for (Class classes : allClasses )
-
-        }
-
-
-
-// futuro caracteristicas
-        System.out.print("Digite a altura do personagem:");
-        charObj.height = sc.nextDouble();
-
-        System.out.print("Digite o comportamento do personagem:");
-        charObj.behavior = sc.nextLine();
-
-        System.out.print("Descreva a aparência do personagem:");
-        charObj.appearance = sc.nextLine();
-
-        System.out.println("Descreva as roupas do personagem:");
-        charObj.clothes = sc.nextLine();
-*/
-/* futuro idiomas
-        System.out.print("\nDigite os idiomas que o personagem fala:");
-    charObj.idioms = sc.nextLine();
-*/
