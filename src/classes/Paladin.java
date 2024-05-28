@@ -15,5 +15,18 @@ public class Paladin extends ClasseModel{
     public String gettEquip(int type) {
         return tipoDeEquiP(3);
     }
+    // Magias
+    public void armaDaFe(){
+    System.out.println("Usar arma da fé");
+}
+    public void armaduraDaFe(){
+        System.out.println("Usar Armadura da Fé");
+    }
+    public void poderSagrado(){
+        System.out.println("Atacar com poder sagrado");
+    }
+    public void campeãodoBem(){
+        System.out.println("Campeão do Bem");
+    }
 
 }

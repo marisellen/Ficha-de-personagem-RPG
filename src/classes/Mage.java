@@ -16,5 +16,18 @@ public class Mage extends ClasseModel{
     public String gettEquip(int type) {
         return tipoDeEquiP(1);
     }
+    // Magias
+    public void bolaDeFogo(){
+        System.out.println("Atacar com bola de fogo");
+    }
+    public void rastroInvisível(){
+        System.out.println("Atacar com bola de fogo controlável");
+    }
+    public void conjuração(){
+        System.out.println("Usar Conjuração");
+    }
+    public void Familiar(){
+        System.out.println("Invocar familiar");
+    }
 
 }

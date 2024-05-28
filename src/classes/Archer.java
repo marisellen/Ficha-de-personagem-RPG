@@ -16,4 +16,18 @@ public class Archer extends ClasseModel{
     return tipoDeEquiP(2);
 }
 
+    // Ataques
+    public void tiroComArco(){
+        System.out.println("Ataca com tiros com arco");
+    }
+    public void tiroPerfurante(){
+        System.out.println("Ataca com tiros perfurantes");
+    }
+    public void tirosNaCabeça(){
+        System.out.println("Ataca com tiros na cabeça");
+    }
+    public void tiroForte(){
+        System.out.println("Ataca com tiro forte");
+    }
+
 }
