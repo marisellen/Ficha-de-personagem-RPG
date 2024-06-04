@@ -10,8 +10,8 @@ public class Character {
     public int age;
     public double height;
     private Race race;
-    private Craft craft;
     public ClasseModel classe;
+    private Craft craft;
 
     public Character(String name) {
         this.name = name;
@@ -20,6 +20,10 @@ public class Character {
     public String getName() {
         return name;
     }
+    public void setName(String name){
+        this.name = name;
+    }
+
     public Race getRace() {
         return race;
     }

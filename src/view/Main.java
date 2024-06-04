@@ -1,7 +1,6 @@
 package view;
 
 import java.util.Scanner;
-import java.util.NoSuchElementException;
 import characteristics.Character;
 import points.StatusBar;
 import races.*;
