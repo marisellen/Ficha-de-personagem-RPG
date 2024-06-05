@@ -5,7 +5,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 public class Conect {
-    private static final String URL = "jdbc:mysql://localhost/ficha_personagem_rpg";
+    private static final String URL = "localhost:3306/ficha_personagem_rpg";
     private static final String USER = "root";
     private static final String PASSWORD = "";
 

@@ -1,6 +1,9 @@
 package inventory;
 
+import dao.BagDAO;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class Bag{
@@ -20,6 +23,20 @@ public class Bag{
         items.add(item);
     }
 
+    public void removeItem(Items item) {
+        Iterator<Items> iterator = items.iterator();
+        while (iterator.hasNext()) {
+            Items i = iterator.next();
+            if (i.getName().equals(item.getName())) {
+                if (i.getQuantity() > item.getQuantity()) {
+                    i.setQuantity(i.getQuantity() - item.getQuantity());
+                } else {
+                    iterator.remove();
+                }
+                return;
+            }
+        }
+    }
     public List<Items> getItems() {
         return new ArrayList<>(items);
     }

@@ -1,7 +1,11 @@
 package view;
 
+import java.util.List;
 import java.util.Scanner;
 import characteristics.Character;
+import dao.BagDAO;
+import dao.CharacterDAO;
+import dao.StatusBarDAO;
 import points.StatusBar;
 import races.*;
 import skills.*;
@@ -23,16 +27,21 @@ public abstract class Main {
         character = choiceCharacteristcs(character);
         character = idionsAdd(character);
 
-        System.out.println(STR."Personagem criado: \{character.getName()}");
+        // Inventário
+        Bag bag = invent();
+
+        // Manipula EXP e HP
+        StatusBar characterStatus = new StatusBar(50, 0, 20, 30, 0, 0);
+
+        System.out.println(STR."\n Personagem criado: \{character.getName()}");
         System.out.println(STR."Raça do personagem: \{character.getRace().getRaceName()}");
         System.out.println(STR."Classe do personagem: \{character.getClasse().getClasseName()}");
         System.out.println(STR."Profissão do personagem: \{character.getCraft().getCraftName()}");
         System.out.println(STR."Alinhamento do personagem: \{character.getAlignment()}");
         System.out.println(STR."Idiomas do personagem: \{character.getLanguages()}");
 
-        StatusBar characterStatus = new StatusBar(50, 0, 20, 30, 0, 0);
+        System.out.println(bag);
 
-        // Manipula EXP e HP
         characterStatus.manipulateStats();
         System.out.println(STR."Level: \{characterStatus.getLevel()}");
         System.out.println(STR."HP: \{characterStatus.getHP()}");
@@ -41,10 +50,8 @@ public abstract class Main {
         System.out.println(STR."Constitution: \{characterStatus.getPC()}");
         System.out.println(STR."Skill points: \{characterStatus.getPH()}");
 
-        // Inventário
-        Bag bolsa = invent();
-        System.out.println("Itens na bolsa:");
-        System.out.println(bolsa);
+        // Inserir personagem no banco de dados
+        CharacterDAO.insertChar(character);
     }
 
     // Método de criação
@@ -291,7 +298,7 @@ public abstract class Main {
         Scanner sca = new Scanner(System.in);
 
         System.out.println("Digite os idiomas que o personagem fala, separados em vírgula");
-        String idioms = sca.nextLine();
+        String idioms;
         idioms = sca.nextLine();
         character.setLanguages(idioms);
 
@@ -308,19 +315,22 @@ public abstract class Main {
         System.out.print("Item 1 nome: ");
         String nome1 = ler.nextLine();
         System.out.print("Item 1 quantidade: ");
-        int qtd1 = ler.nextInt();
+        int qtd1;
+        qtd1 = ler.nextInt();
         ler.nextLine();
 
         System.out.print("Item 2 nome: ");
         String nome2 = ler.nextLine();
         System.out.print("Item 2 quantidade: ");
-        int qtd2 = ler.nextInt();
+        int qtd2;
+        qtd2 = ler.nextInt();
         ler.nextLine();
 
         System.out.print("Item 3 nome: ");
         String nome3 = ler.nextLine();
         System.out.print("Item 3 quantidade: ");
-        int qtd3 = ler.nextInt();
+        int qtd3;
+        qtd3 = ler.nextInt();
         ler.nextLine();
 
         bolsa.addItem(new Items(nome1, qtd1));
@@ -331,4 +341,41 @@ public abstract class Main {
         return bolsa;
     }
 
+
+ /*   // Atualizar pontos
+    public static StatusBar updateStatusBar(StatusBar points) {
+        // Implementar lógica de atualização aqui, se necessário
+        return points;
+    }
+
+    // Atualizar inventário
+    public static updateInvent(Bag bag) {
+        Items item;
+        String nomeItem;
+        public void Items bag.addItem(Items item, Bag iventary) {
+            for (Items i : iventary) {
+                if (i.getName().equals(item.getName())) {
+                    i.setQuantity(i.getQuantity() + item.getQuantity());
+                    return;
+                }
+            }
+            bag.add(item);
+        }
+
+        public void Items bag.removeItem()(Items item, String nomeItem, int quantidade, Bag iventary) {
+            for (Items i : iventary) {
+                if (i.getName().equals(nomeItem)) {
+                    int novaQuantidade = i.getQuantity() - quantidade;
+                    if (novaQuantidade > 0) {
+                        i.setQuantity(novaQuantidade);
+                    } else {
+                        Bag.remove(i);
+                    }
+                    return;
+                }
+            }
+        }
+        return bag;
+    }
+*/
 }

@@ -14,9 +14,9 @@ import java.util.List;
 
 public class CharacterDAO {
 
-//Create - Insert
-    public static void insertChar(Character character){
-       String sql = "INSERT INTO character( name, race, classe, craft, age, height, appearance, clothes, alignment, idioms VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?))";
+    //Create - Insert
+    public static void insertChar(Character character) {
+        String sql = "INSERT INTO personagem (name, race, classe, craft, age, height, appearance, clothes, alignment, idioms) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         Connection conn = null;
         PreparedStatement ps = null;
 
@@ -37,18 +37,18 @@ public class CharacterDAO {
             // Executar
             ps.execute();
 
-            System.out.println("Personagem Salvo com sucesso!");
+            System.out.println("Personagem salvo com sucesso!");
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } finally {
-            // Fechar conecções
-            try{
+            // Fechar conexões
+            try {
                 if (ps != null) {
                     ps.close();
                 }
-                if (conn != null){
+                if (conn != null) {
                     conn.close();
                 }
             } catch (SQLException e) {
@@ -56,16 +56,14 @@ public class CharacterDAO {
             }
         }
     }
-
-// Read - Select
-    public List<Character> getChar() throws SQLException {
+    // Read - Select
+    public static List<Character> getChar() {
         String sql = "SELECT * FROM personagem";
 
-        List<Character> personagems = new ArrayList<Character>();
+        List<Character> characters = new ArrayList<>();
 
         Connection conn = null;
         PreparedStatement ps = null;
-
         // Recuperar dados
         ResultSet rset = null;
 
@@ -74,29 +72,28 @@ public class CharacterDAO {
             ps = conn.prepareStatement(sql);
             rset = ps.executeQuery();
 
-            while (rset.next()){
-                Character personagem = new Character(null);
+            while (rset.next()) {
+                Character character = new Character(rset.getString("name"));
+                // Inserir no banco de dados
+                character.setName(rset.getString("name"));
+                character.setRace((Race) rset.getObject("race"));
+                character.setClasse((ClasseModel) rset.getObject("classe"));
+                character.setCraft((Craft) rset.getObject("craft"));
+                character.setAge(rset.getInt("age"));
+                character.setHeight(rset.getDouble("height"));
+                character.setAppearance(rset.getString("apparence"));
+                character.setClothes(rset.getString("clothes"));
+                character.setAlignment(rset.getString("alignment"));
+                character.setLanguages(rset.getString("idioms"));
 
-                personagem.setName(rset.getString("name"));
-                personagem.setRace((Race) rset.getObject("race"));
-                personagem.setClasse((ClasseModel) rset.getObject("classe"));
-                personagem.setCraft((Craft) rset.getObject("craft"));
-                personagem.setAge(rset.getInt("age"));
-                personagem.setHeight(rset.getDouble("height"));
-                personagem.setAppearance(rset.getString("apparence"));
-                personagem.setClothes(rset.getString("clothes"));
-                personagem.setAlignment(rset.getString("alignment"));
-                personagem.setLanguages(rset.getString("idioms"));
-
-                personagems.add(personagem);
+                characters.add(character);
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             try {
                 if (rset != null) {
                     rset.close();
-                    ;
                 }
                 if (ps != null) {
                     ps.close();
@@ -108,17 +105,15 @@ public class CharacterDAO {
                 e.printStackTrace();
             }
         }
-        return personagems;
-    }
-// Update
+        return characters;
+    }    // Update
     public static void updateChar(Character character){
-
-        String sql = "UPDATE personagem SET name = ?, race = ?, classe = ?, craft = ?, age = ?, height = ?, appearance = ?, clothers = ?, alignment = ?, idioms = ? WHERE id = ? ";
+        String sql = "UPDATE personagem SET name = ?, race = ?, classe = ?, craft = ?, age = ?, height = ?, appearance = ?, clothes = ?, alignment = ?, idioms = ? WHERE id = ?";
 
         Connection conn = null;
         PreparedStatement ps = null;
 
-        try{
+        try {
             conn = Conect.conector();
             ps = conn.prepareStatement(sql);
 
@@ -138,11 +133,11 @@ public class CharacterDAO {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            try{
-                if (ps != null){
-                    ps.close();;
+            try {
+                if (ps != null) {
+                    ps.close();
                 }
-                if (conn != null){
+                if (conn != null) {
                     conn.close();
                 }
             } catch (SQLException e) {
@@ -150,27 +145,26 @@ public class CharacterDAO {
             }
         }
     }
-// Delete
+    // Delete
     public static void deleteChar(int id){
-        String sql = "DELETE FROM personagem where id = ?";
+        String sql = "DELETE FROM personagem WHERE id = ?";
 
         Connection conn = null;
-
         PreparedStatement ps = null;
 
         try {
             conn = Conect.conector();
             ps = conn.prepareStatement(sql);
             ps.setInt(1, id);
-            ps.execute();
+            ps.executeUpdate();
         } catch (SQLException | ClassNotFoundException e) {
             e.printStackTrace();
-        }finally {
-            try{
-                if (ps != null){
+        } finally {
+            try {
+                if (ps != null) {
                     ps.close();
                 }
-                if (conn != null){
+                if (conn != null) {
                     conn.close();
                 }
             } catch (SQLException e) {
