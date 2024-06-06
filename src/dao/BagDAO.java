@@ -25,7 +25,7 @@ public class BagDAO {
             ps.setInt(2, items.getQuantity());
             // Executar
             ps.executeUpdate();
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             // Fechar conexões
@@ -124,7 +124,7 @@ public class BagDAO {
             ps = conn.prepareStatement(sql);
             ps.setInt(1, id);
             ps.executeUpdate();
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         } finally {
             try {

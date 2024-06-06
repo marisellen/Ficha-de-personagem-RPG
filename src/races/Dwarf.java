@@ -6,6 +6,7 @@ public class Dwarf extends Race implements Attributes {
     public Dwarf() {
         super("Dwarf");
     }
+
     public boolean hasDarkVision() {
         return true;
     }

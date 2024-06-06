@@ -10,13 +10,10 @@ public class Conect {
     private static final String PASSWORD = "";
 
     private static Connection conn;
-    public static Connection conector() throws SQLException, ClassNotFoundException {
+    public static Connection conector(){
         try {
-            if (conn == null) {
+            if (conn == null || conn.isClosed()) {
                 conn = DriverManager.getConnection(URL, USER, PASSWORD);
-                if (conn != null) {
-                    return null;
-                }
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, e.toString());

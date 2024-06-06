@@ -228,7 +228,8 @@ public abstract class Main {
 
         System.out.println("Digite a idade e depois a altura do personagem:");
         int age = scan.nextInt();
-        double height = scan.nextDouble();
+        double height;
+        height = scan.nextDouble();
         character.setAge(age);
         character.setHeight(height);
 

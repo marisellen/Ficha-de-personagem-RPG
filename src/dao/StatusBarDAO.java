@@ -31,8 +31,6 @@ public class StatusBarDAO {
             ps.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         } finally {
             // Fechar conecções
             try {
@@ -145,7 +143,7 @@ public class StatusBarDAO {
             ps = conn.prepareStatement(sql);
             ps.setInt(1, id);
             ps.execute();
-        } catch (SQLException | ClassNotFoundException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }finally {
             try{
