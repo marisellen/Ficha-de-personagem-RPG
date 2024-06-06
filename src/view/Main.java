@@ -1,9 +1,9 @@
 package view;
 
+import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
 import characteristics.Character;
-import dao.BagDAO;
 import dao.CharacterDAO;
 import dao.StatusBarDAO;
 import points.StatusBar;
@@ -12,14 +12,59 @@ import skills.*;
 import classes.*;
 import inventory.*;
 
+import javax.swing.*;
+
 import static java.lang.System.in;
 
 public abstract class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws SQLException {
+        Scanner sc = new Scanner(System.in);
+
+        List<Character> characters = CharacterDAO.getChar();
+
         System.out.println("----------------------------");
         System.out.println("Ficha personagem");
         System.out.println("----------------------------");
+        System.out.println("Escolha uma opção:");
+        System.out.println("1 - Criar personagem"); // ok
+        System.out.println("2 - Listar personagens"); // ok
+        System.out.println("3 - Alterar Status");
+        System.out.println("4 - Adicionar itens");
+        System.out.println("5 - Excluir personagem"); // ok
+        System.out.println("----------------------------");
+        int opcao;
 
+        do {
+            opcao = sc.nextInt();
+            switch (opcao) {
+                case 0:
+                    break;
+                case 1:
+                    createCharacter();
+                    break;
+                case 2:
+                    characters = CharacterDAO.getChar();
+                    listarChars(characters);
+                    break;
+                case 3:
+                    //updateStatusBar();
+                    break;
+                case 4:
+
+                    break;
+                case 5:
+                    delChar();
+                    break;
+                default:
+                    JOptionPane.showMessageDialog(null, "Opção inválida");
+                    break;
+            }
+        }while( opcao != 0 );
+
+
+    }
+    // Método criar personagem
+    public static void createCharacter() throws SQLException {
         Character character = makeCharacter();
         character = characterRace(character);
         character = characterClass(character);
@@ -27,18 +72,18 @@ public abstract class Main {
         character = choiceCharacteristcs(character);
         character = idionsAdd(character);
 
-        // Inventário
-        Bag bag = invent();
-
-        // Manipula EXP e HP
-        StatusBar characterStatus = new StatusBar(50, 0, 20, 30, 0, 0);
-
         System.out.println(STR."\n Personagem criado: \{character.getName()}");
         System.out.println(STR."Raça do personagem: \{character.getRace().getRaceName()}");
         System.out.println(STR."Classe do personagem: \{character.getClasse().getClasseName()}");
         System.out.println(STR."Profissão do personagem: \{character.getCraft().getCraftName()}");
         System.out.println(STR."Alinhamento do personagem: \{character.getAlignment()}");
         System.out.println(STR."Idiomas do personagem: \{character.getLanguages()}");
+
+        // Inventário
+        Bag bag = invent();
+
+        // Manipula EXP e HP
+        StatusBar characterStatus = new StatusBar(50, 0, 20, 30, 0, 0);
 
         System.out.println(bag);
 
@@ -51,10 +96,38 @@ public abstract class Main {
         System.out.println(STR."Skill points: \{characterStatus.getPH()}");
 
         // Inserir personagem no banco de dados
-        CharacterDAO.insertChar(character);
+        int personagemId = CharacterDAO.insertChar(character);
+        // Inserir barara de status no banco de dados
+        StatusBarDAO.insertPoints(characterStatus, personagemId);
+
+    }
+    // Método listar personagens criados
+    public static void listarChars( List<Character> characters ){
+        // Exibir os personagens
+        String texto = "Personagens cadastrados:";
+        if (characters.isEmpty()) {
+            texto += "\n\nNenhum personagem cadastrado";
+        } else {
+            for (Character character : characters) {
+                texto += "\n " + character.getName() +
+                        "\n-------------------------";
+            }
+        }
+        System.out.println(texto);
+    }
+    // Método deletar personagem
+    public static void delChar(){
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Digite o nome do personagem que deseja excluir:");
+        String characterName = scanner.nextLine();
+
+        CharacterDAO.deleteChar(characterName);
+
+        scanner.close();
     }
 
-    // Método de criação
+    // Método criar nome
     public static Character makeCharacter() {
         Scanner sc = new Scanner(in);
         System.out.print("Digite o nome do personagem: ");
@@ -227,7 +300,8 @@ public abstract class Main {
         Scanner scan = new Scanner(in);
 
         System.out.println("Digite a idade e depois a altura do personagem:");
-        int age = scan.nextInt();
+        int age;
+        age = scan.nextInt();
         double height;
         height = scan.nextDouble();
         character.setAge(age);
@@ -342,11 +416,9 @@ public abstract class Main {
         return bolsa;
     }
 
+    // Atualizar pontos
+/*  public static updateStatusBar() {
 
- /*   // Atualizar pontos
-    public static StatusBar updateStatusBar(StatusBar points) {
-        // Implementar lógica de atualização aqui, se necessário
-        return points;
     }
 
     // Atualizar inventário

@@ -13,6 +13,8 @@ public class Character {
     public ClasseModel classe;
     private Craft craft;
 
+    public Character() {
+    }
     public Character(String name) {
         this.name = name;
     }

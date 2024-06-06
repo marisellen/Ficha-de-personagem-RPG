@@ -4,38 +4,38 @@ import points.StatusBar;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
-public class StatusBarDAO {
+public class StatusBarDAO  extends CharacterDAO{
 
-    public static void insertPoints(StatusBar points) {
-        String sql = "INSERT INTO barra_de_status(pontos_vida, pontos_experiência, pontos_magia, Pontos_estamina, pontos_constituição, pontos_habilidades VALUES (?, ?, ?, ?, ?, ?)) ";
+    //Create - Insert
+    public static void insertPoints(StatusBar points, int personagemId) {
+        String sql = "INSERT INTO barra_de_status(pontos_vida, pontos_experiencia, pontos_magia, pontos_estamina, pontos_constituicao, pontos_habilidades, personagem_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
         Connection conn = null;
-        PreparedStatement ps = null;
+        PreparedStatement psStatusBar = null;
 
         try {
             conn = Conect.conector();
-            ps = conn.prepareStatement(sql);
+            psStatusBar = conn.prepareStatement(sql);
 
             // Adicionar valores
-            ps.setInt(1, points.getHP());
-            ps.setInt(2, points.getXP());
-            ps.setInt(3, points.getMP());
-            ps.setInt(4, points.getPE());
-            ps.setInt(5, points.getPC());
-            ps.setInt(6, points.getPH());
-            // Esecutar
-            ps.execute();
+            psStatusBar.setInt(1, points.getHP());
+            psStatusBar.setInt(2, points.getXP());
+            psStatusBar.setInt(3, points.getMP());
+            psStatusBar.setInt(4, points.getPE());
+            psStatusBar.setInt(5, points.getPC());
+            psStatusBar.setInt(6, points.getPH());
+            psStatusBar.setInt(7, personagemId);
+
+            // Executar
+            psStatusBar.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
-            // Fechar conecções
+            // Fechar conexões
             try {
-                if (ps != null) {
-                    ps.close();
+                if (psStatusBar != null) {
+                    psStatusBar.close();
                 }
                 if (conn != null) {
                     conn.close();
@@ -46,6 +46,7 @@ public class StatusBarDAO {
         }
     }
 
+/*    // Read -
     public static List<StatusBar> getPoints() {
         String sql = "SELECT * FROM barra_de_status";
 
@@ -95,8 +96,8 @@ public class StatusBarDAO {
         return points;
     }
 
+    // Update -
     public static void updatePoints(StatusBar points) {
-
         String sql = "UPDATE barra_de_status SET pontos_vida = ?, pontos_experiência = ?, pontos_magia = ?, Pontos_estamina = ?, pontos_constituição = ?, pontos_habilidades = ? WHERE id = ?";
 
         Connection conn = null;
@@ -131,6 +132,7 @@ public class StatusBarDAO {
         }
     }
 
+    // Delete -
     public static void deletePoints(int id) {
         String sql = "DELETE FROM barra_de_status where id = ?";
 
@@ -158,4 +160,6 @@ public class StatusBarDAO {
             }
         }
     }
+*/
+
 }
