@@ -11,37 +11,80 @@ import java.util.List;
 
 public class BagDAO {
 
-    public static void insertItems(Bag bag, Items items) {
-        String sql = "INSERT INTO inventario(nome, quantidade) VALUES (?, ?)";
-        Connection conn = null;
-        PreparedStatement ps = null;
+//Create - Insert - ok
+public static void insertItems(int personagemId, Items item) throws SQLException {
+    Connection conn = null;
+    PreparedStatement psSelect = null;
+    PreparedStatement psUpdate = null;
+    PreparedStatement psInsert = null;
+    ResultSet rs = null;
 
+    try {
+        conn = Conect.conector();
+
+        // Verifica se o personagem existe
+        String personagemSql = "SELECT id FROM personagem WHERE id = ?";
+        psSelect = conn.prepareStatement(personagemSql);
+        psSelect.setInt(1, personagemId);
+        rs = psSelect.executeQuery();
+
+        if (!rs.next()) {
+            throw new SQLException("Personagem com ID " + personagemId + " não encontrado.");
+        }
+
+        // Verifica se o item já existe no inventário
+        String selectSql = "SELECT quantidade FROM inventario WHERE name = ? AND personagem_id = ?";
+        psSelect = conn.prepareStatement(selectSql);
+        psSelect.setString(1, item.getName());
+        psSelect.setInt(2, personagemId);
+        rs = psSelect.executeQuery();
+
+        if (rs.next()) {
+            // Atualiza a quantidade do item existente
+            int currentQuantity = rs.getInt("quantidade");
+            int newQuantity = currentQuantity + item.getQuantity();
+
+            String updateSql = "UPDATE inventario SET quantidade = ? WHERE name = ? AND personagem_id = ?";
+            psUpdate = conn.prepareStatement(updateSql);
+            psUpdate.setInt(1, newQuantity);
+            psUpdate.setString(2, item.getName());
+            psUpdate.setInt(3, personagemId);
+            psUpdate.executeUpdate();
+        } else {
+            // Insere um novo registro no inventário
+            String insertSql = "INSERT INTO inventario (name, quantidade, personagem_id) VALUES (?, ?, ?)";
+            psInsert = conn.prepareStatement(insertSql);
+            psInsert.setString(1, item.getName());
+            psInsert.setInt(2, item.getQuantity());
+            psInsert.setInt(3, personagemId);
+            psInsert.executeUpdate();
+        }
+    } catch (SQLException e) {
+        e.printStackTrace();
+    } finally {
         try {
-            conn = Conect.conector();
-            ps = conn.prepareStatement(sql);
-
-            // Adicionar valores
-            ps.setString(1, items.getName());
-            ps.setInt(2, items.getQuantity());
-            // Executar
-            ps.executeUpdate();
+            if (rs != null) {
+                rs.close();
+            }
+            if (psSelect != null) {
+                psSelect.close();
+            }
+            if (psUpdate != null) {
+                psUpdate.close();
+            }
+            if (psInsert != null) {
+                psInsert.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            // Fechar conexões
-            try {
-                if (ps != null) {
-                    ps.close();
-                }
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
         }
     }
+}
 
+    // Read -
     public static List<Items> getItems() {
         String sql = "SELECT * FROM inventario";
 
@@ -59,7 +102,7 @@ public class BagDAO {
             while (rset.next()) {
                 Items item = new Items(null, 0);
 
-                item.setName(rset.getString("nome"));
+                item.setName(rset.getString("name"));
                 item.setQuantity(rset.getInt("quantidade"));
                 items.add(item);
             }
@@ -83,36 +126,7 @@ public class BagDAO {
         return items;
     }
 
-    public static void updateItems(Items items) {
-        String sql = "UPDATE inventario SET nome = ?, quantidade = ?";
-
-        Connection conn = null;
-        PreparedStatement ps = null;
-
-        try {
-            conn = Conect.conector();
-            ps = conn.prepareStatement(sql);
-
-            // Atualizar
-            ps.setString(1, items.getName());
-            ps.setInt(2, items.getQuantity());
-            ps.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (ps != null) {
-                    ps.close();
-                }
-                if (conn != null) {
-                    conn.close();
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
+    // Delete -
     public static void deleteItems(int id) {
         String sql = "DELETE FROM inventario where id = ?";
 

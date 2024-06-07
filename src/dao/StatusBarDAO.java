@@ -47,7 +47,7 @@ public class StatusBarDAO  extends CharacterDAO{
         }
     }
 
-    // Update -
+    // Update - ok
     public static void updatePoints(StatusBar points, int personagemId) {
         String sql = "UPDATE barra_de_status SET pontos_vida = ?, pontos_experiencia = ?, pontos_magia = ?, Pontos_estamina = ?, pontos_constituicao = ?, pontos_habilidades = ? WHERE personagem_id = ?";
 

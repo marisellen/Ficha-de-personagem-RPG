@@ -1,19 +1,21 @@
 package view;
 
+import characteristics.Character;
+import classes.*;
+import dao.BagDAO;
+import dao.CharacterDAO;
+import dao.StatusBarDAO;
+import inventory.Bag;
+import inventory.Items;
+import points.StatusBar;
+import races.*;
+import skills.Craft;
+
+import javax.swing.*;
 import java.sql.SQLException;
 import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
-import characteristics.Character;
-import dao.CharacterDAO;
-import dao.StatusBarDAO;
-import points.StatusBar;
-import races.*;
-import skills.*;
-import classes.*;
-import inventory.*;
-
-import javax.swing.*;
 
 import static dao.StatusBarDAO.*;
 import static java.lang.System.in;
@@ -23,6 +25,7 @@ public abstract class Main {
         Scanner sc = new Scanner(System.in);
 
         List<Character> characters = CharacterDAO.getChar();
+        List<Items> inventory = BagDAO.getItems();
 
         System.out.println("----------------------------");
         System.out.println("Ficha personagem");
@@ -30,14 +33,17 @@ public abstract class Main {
         System.out.println("Escolha uma opção:");
         System.out.println("1 - Criar personagem"); // ok
         System.out.println("2 - Listar personagens"); // ok
-        System.out.println("3 - Alterar Status");
-        System.out.println("4 - Adicionar itens");
-        System.out.println("5 - Excluir personagem"); // ok
+        System.out.println("3 - Alterar Status");  // ok
+        System.out.println("4 - Adicionar itens"); // ok
+        System.out.println("5 - Listar itens");
+        System.out.println("6 - Excluir item");
+        System.out.println("7 - Excluir personagem"); // ok
         System.out.println("----------------------------");
-        int opcao;
 
+        int opcao;
         do {
             opcao = sc.nextInt();
+            sc.nextLine();
             switch (opcao) {
                 case 0:
                     break;
@@ -51,19 +57,35 @@ public abstract class Main {
                 case 3:
                     System.out.print("Informe o nome do personagem: ");
                     sc.nextLine();
-                    String nomePersonagem = sc.nextLine();
-                    int personagemId = getIdFromName(nomePersonagem);
-                    if (personagemId != -1) {
-                        StatusBar statusBar = getStatus(personagemId);
-                        updateStatusBar(statusBar, personagemId);
+                    String nomePersonagemCase3 = sc.nextLine();
+                    int personagemIdCase3 = getIdFromName(nomePersonagemCase3);
+                    if (personagemIdCase3 != -1) {
+                        StatusBar statusBar = getStatus(personagemIdCase3);
+                        updateStatusBar(statusBar, personagemIdCase3);
                     } else {
                         System.out.println("Personagem não encontrado.");
                     }
                     break;
                 case 4:
-
+                    System.out.print("Informe o nome do personagem: ");
+                    String nomePersonagemCase4 = sc.nextLine();
+                    int personagemIdCase4 = getIdFromName(nomePersonagemCase4);
+                    if (personagemIdCase4 != -1) {
+                        Bag bag = invent();
+                        for (Items item : bag.getItems()) {
+                            BagDAO.insertItems(personagemIdCase4, item);
+                        }
+                    } else {
+                        System.out.println("Personagem não encontrado.");
+                    }
                     break;
                 case 5:
+                    // listInvent
+                    break;
+                case 6:
+                    // removeItesInvent
+                    break;
+                case 7:
                     delChar();
                     break;
                 default:
@@ -109,9 +131,14 @@ public abstract class Main {
 
         // Inserir personagem no banco de dados
         int personagemId = CharacterDAO.insertChar(character);
-        // Inserir barara de status no banco de dados
+
+        // Inserir barra de status no banco de dados
         StatusBarDAO.insertPoints(characterStatus, personagemId);
 
+        // Insere ou atualiza os itens no banco de dados
+        for (Items item : bag.getItems()) {
+            BagDAO.insertItems(personagemId, item);
+        }
     }
 
     // Método listar personagens criados
@@ -404,22 +431,19 @@ public abstract class Main {
         System.out.print("Item 1 nome: ");
         String nome1 = ler.nextLine();
         System.out.print("Item 1 quantidade: ");
-        int qtd1;
-        qtd1 = ler.nextInt();
+        int qtd1 = ler.nextInt();
         ler.nextLine();
 
         System.out.print("Item 2 nome: ");
         String nome2 = ler.nextLine();
         System.out.print("Item 2 quantidade: ");
-        int qtd2;
-        qtd2 = ler.nextInt();
+        int qtd2 = ler.nextInt();
         ler.nextLine();
 
         System.out.print("Item 3 nome: ");
         String nome3 = ler.nextLine();
         System.out.print("Item 3 quantidade: ");
-        int qtd3;
-        qtd3 = ler.nextInt();
+        int qtd3 = ler.nextInt();
         ler.nextLine();
 
         bolsa.addItem(new Items(nome1, qtd1));
@@ -427,6 +451,7 @@ public abstract class Main {
         bolsa.addItem(new Items(nome3, qtd3));
 
         ler.close();
+
         return bolsa;
     }
 
@@ -472,21 +497,32 @@ public abstract class Main {
         }
     }
 
-/*    // Atualizar inventário
-    public static updateInvent(Bag bag) {
-        Items item;
-        String nomeItem;
-        public void Items bag.addItem(Items item, Bag iventary) {
-            for (Items i : iventary) {
-                if (i.getName().equals(item.getName())) {
-                    i.setQuantity(i.getQuantity() + item.getQuantity());
-                    return;
-                }
+    // Atualizar inventário
+    public static void updateInvent(int personagemId, Items item, Bag inventory) throws SQLException {
+        boolean itemExists = false;
+
+        // Verifica se o item já existe no inventário e atualiza a quantidade se necessário
+        for (Items i : inventory.getItems()) {
+            if (i.getName().equals(item.getName())) {
+                i.setQuantity(i.getQuantity() + item.getQuantity());
+                itemExists = true;
+                break;
             }
-            bag.add(item);
         }
 
-        public void Items bag.removeItem()(Items item, String nomeItem, int quantidade, Bag iventary) {
+        // Adiciona no inventário se não existe
+        if (!itemExists) {
+            inventory.addItem(item);
+        }
+
+        // Insere ou atualiza os itens no banco de dados
+        BagDAO.insertItems(personagemId, item);
+    }
+}
+    /*
+     public static listInvent(){}
+
+     public static removeItesInvent()(Items item, String nomeItem, int quantidade, Bag iventary) {
             for (Items i : iventary) {
                 if (i.getName().equals(nomeItem)) {
                     int novaQuantidade = i.getQuantity() - quantidade;
@@ -498,8 +534,4 @@ public abstract class Main {
                     return;
                 }
             }
-        }
-        return bag;
-    }
 */
-}
