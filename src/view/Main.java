@@ -1,6 +1,7 @@
 package view;
 
 import java.sql.SQLException;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 import characteristics.Character;
@@ -14,6 +15,7 @@ import inventory.*;
 
 import javax.swing.*;
 
+import static dao.StatusBarDAO.*;
 import static java.lang.System.in;
 
 public abstract class Main {
@@ -47,7 +49,16 @@ public abstract class Main {
                     listarChars(characters);
                     break;
                 case 3:
-                    //updateStatusBar();
+                    System.out.print("Informe o nome do personagem: ");
+                    sc.nextLine();
+                    String nomePersonagem = sc.nextLine();
+                    int personagemId = getIdFromName(nomePersonagem);
+                    if (personagemId != -1) {
+                        StatusBar statusBar = getStatus(personagemId);
+                        updateStatusBar(statusBar, personagemId);
+                    } else {
+                        System.out.println("Personagem não encontrado.");
+                    }
                     break;
                 case 4:
 
@@ -59,10 +70,11 @@ public abstract class Main {
                     JOptionPane.showMessageDialog(null, "Opção inválida");
                     break;
             }
-        }while( opcao != 0 );
+        } while (opcao != 0);
 
 
     }
+
     // Método criar personagem
     public static void createCharacter() throws SQLException {
         Character character = makeCharacter();
@@ -101,8 +113,9 @@ public abstract class Main {
         StatusBarDAO.insertPoints(characterStatus, personagemId);
 
     }
+
     // Método listar personagens criados
-    public static void listarChars( List<Character> characters ){
+    public static void listarChars(List<Character> characters) {
         // Exibir os personagens
         String texto = "Personagens cadastrados:";
         if (characters.isEmpty()) {
@@ -115,8 +128,9 @@ public abstract class Main {
         }
         System.out.println(texto);
     }
+
     // Método deletar personagem
-    public static void delChar(){
+    public static void delChar() {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println("Digite o nome do personagem que deseja excluir:");
@@ -369,7 +383,7 @@ public abstract class Main {
     }
 
     // Idiomas
-    public static Character idionsAdd(Character character){
+    public static Character idionsAdd(Character character) {
         Scanner sca = new Scanner(System.in);
 
         System.out.println("Digite os idiomas que o personagem fala, separados em vírgula");
@@ -417,11 +431,48 @@ public abstract class Main {
     }
 
     // Atualizar pontos
-/*  public static updateStatusBar() {
+    public static void updateStatusBar(StatusBar points, int personagemId) {
+        Scanner scanner = new Scanner(System.in);
+        try {
+            // Solicitar os novos valores para os pontos de status
+            System.out.println("Informe os novos valores para os pontos de status:");
 
+            System.out.print("Pontos de Vida: ");
+            int hp = scanner.nextInt();
+
+            System.out.print("Pontos de Experiência: ");
+            int xp = scanner.nextInt();
+
+            System.out.print("Pontos de Magia: ");
+            int mp = scanner.nextInt();
+
+            System.out.print("Pontos de Estamina: ");
+            int pe = scanner.nextInt();
+
+            System.out.print("Pontos de Constituição: ");
+            int pc = scanner.nextInt();
+
+            System.out.print("Pontos de Habilidades: ");
+            int ph = scanner.nextInt();
+
+            // Atualiza o objeto StatusBar com os novos valores
+            points.setHP(hp);
+            points.setXP(xp);
+            points.setMP(mp);
+            points.setPE(pe);
+            points.setPC(pc);
+            points.setPH(ph);
+
+            // Atualiza a barra de status no banco de dados
+            updatePoints(points, personagemId);
+        } catch (InputMismatchException e) {
+            System.out.println("Entrada inválida. Certifique-se de inserir números inteiros para os pontos de status.");
+        } finally {
+            scanner.close();
+        }
     }
 
-    // Atualizar inventário
+/*    // Atualizar inventário
     public static updateInvent(Bag bag) {
         Items item;
         String nomeItem;

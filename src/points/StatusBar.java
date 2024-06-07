@@ -17,6 +17,9 @@ public class StatusBar {
     //  PH - Pontos de Habilidades
 
     // Construtor
+    public StatusBar() {
+
+    }
     public StatusBar(int hp, int xp, int pe, int mp, int pc, int ph) {
         this.HP = hp;
         this.XP = xp;
