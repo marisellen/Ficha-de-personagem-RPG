@@ -161,20 +161,20 @@ public class BagDAO {
         return (List<Items>) items;
     }
 
-}
-
-    // Delete -
-/*    public static void deleteItems(int id) {
-        String sql = "DELETE FROM inventario where id = ?";
-
+    // Delete - ok
+    public static boolean deleteItem(String itemName) {
         Connection conn = null;
         PreparedStatement ps = null;
+        boolean success = false;
 
         try {
             conn = Conect.conector();
+            String sql = "DELETE FROM inventario WHERE name = ?";
             ps = conn.prepareStatement(sql);
-            ps.setInt(1, id);
-            ps.executeUpdate();
+            ps.setString(1, itemName);
+
+            int rowsAffected = ps.executeUpdate();
+            success = (rowsAffected > 0);
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -189,5 +189,7 @@ public class BagDAO {
                 e.printStackTrace();
             }
         }
+        return success;
     }
-*/
+
+}

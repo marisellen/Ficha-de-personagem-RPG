@@ -36,7 +36,7 @@ public abstract class Main {
         System.out.println("3 - Alterar Status");  // ok
         System.out.println("4 - Adicionar itens"); // ok
         System.out.println("5 - Listar itens"); // ok
-        System.out.println("6 - Excluir item");
+        System.out.println("6 - Excluir item"); // ok
         System.out.println("7 - Excluir personagem"); // ok
         System.out.println("----------------------------");
 
@@ -84,7 +84,7 @@ public abstract class Main {
                     listInvent(item);
                     break;
                 case 6:
-                    // removeItesInvent
+                    removeItesInvent(sc);
                     break;
                 case 7:
                     delChar();
@@ -94,7 +94,6 @@ public abstract class Main {
                     break;
             }
         } while (opcao != 0);
-
 
     }
 
@@ -535,9 +534,24 @@ public abstract class Main {
         System.out.println(texto);
     }
 
+    // Deletar item no inventário
+    public static void removeItesInvent(Scanner scanner) {
+            List<Items> items = BagDAO.getItems();
+            listInvent(items);
+
+            System.out.println("Digite o nome do item a ser removido:");
+            String itemName = scanner.nextLine();
+
+            boolean success = BagDAO.deleteItem(itemName);
+            if (success) {
+                System.out.println("Item removido com sucesso!");
+            } else {
+                System.out.println("Item não encontrado.");
+            }
+
+            // Atualizar e listar os itens após a remoção
+            items = BagDAO.getItems();
+            listInvent(items);
+        }
+
 }
-    /*
-
-
-     public static removeItesInvent(){}
-*/
