@@ -25,7 +25,7 @@ public abstract class Main {
         Scanner sc = new Scanner(System.in);
 
         List<Character> characters = CharacterDAO.getChar();
-        List<Items> inventory = BagDAO.getItems();
+        List<Items> items = BagDAO.getItems();
 
         System.out.println("----------------------------");
         System.out.println("Ficha personagem");
@@ -35,7 +35,7 @@ public abstract class Main {
         System.out.println("2 - Listar personagens"); // ok
         System.out.println("3 - Alterar Status");  // ok
         System.out.println("4 - Adicionar itens"); // ok
-        System.out.println("5 - Listar itens");
+        System.out.println("5 - Listar itens"); // ok
         System.out.println("6 - Excluir item");
         System.out.println("7 - Excluir personagem"); // ok
         System.out.println("----------------------------");
@@ -80,7 +80,8 @@ public abstract class Main {
                     }
                     break;
                 case 5:
-                    // listInvent
+                    List<Items> item = BagDAO.getItems();
+                    listInvent(item);
                     break;
                 case 6:
                     // removeItesInvent
@@ -518,20 +519,25 @@ public abstract class Main {
         // Insere ou atualiza os itens no banco de dados
         BagDAO.insertItems(personagemId, item);
     }
+
+    // Listar itens do inventário
+    public static void listInvent(List<Items> items){
+        // Exibir os itens
+        String texto = "Itens cadastrados:";
+        if (items.isEmpty()) {
+            texto += "\n\nNenhum item cadastrado";
+        } else {
+            for (Items item : items) {
+                texto += "\n " + item.getName() + " - Quantidade: " + item.getQuantity() +
+                        "\n-------------------------";
+            }
+        }
+        System.out.println(texto);
+    }
+
 }
     /*
-     public static listInvent(){}
 
-     public static removeItesInvent()(Items item, String nomeItem, int quantidade, Bag iventary) {
-            for (Items i : iventary) {
-                if (i.getName().equals(nomeItem)) {
-                    int novaQuantidade = i.getQuantity() - quantidade;
-                    if (novaQuantidade > 0) {
-                        i.setQuantity(novaQuantidade);
-                    } else {
-                        Bag.remove(i);
-                    }
-                    return;
-                }
-            }
+
+     public static removeItesInvent(){}
 */
