@@ -520,8 +520,8 @@ public abstract class Main {
                 break;
             }
         }
-        if (!itemExists) {         // Adiciona no inventário se não existe
-
+        // Adiciona no inventário se não existe
+        if (!itemExists) {
             inventory.addItem(item);
             System.out.println("Inventário atualizado com sucesso!");
         }
@@ -529,7 +529,6 @@ public abstract class Main {
         // Insere ou atualiza os itens no banco de dados
         BagDAO.insertItems(personagemId, item);
         return inventory;
-
     }
 
     // Listar itens do inventário
