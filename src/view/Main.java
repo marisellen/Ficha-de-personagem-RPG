@@ -56,7 +56,6 @@ public abstract class Main {
                     break;
                 case 3:
                     System.out.print("Informe o nome do personagem: ");
-                    sc.nextLine();
                     String nomePersonagemCase3 = sc.nextLine();
                     int personagemIdCase3 = getIdFromName(nomePersonagemCase3);
                     if (personagemIdCase3 != -1) {
