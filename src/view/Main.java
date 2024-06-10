@@ -66,17 +66,7 @@ public abstract class Main {
                     }
                     break;
                 case 4:
-                    System.out.print("Informe o nome do personagem: ");
-                    String nomePersonagemCase4 = sc.nextLine();
-                    int personagemIdCase4 = getIdFromName(nomePersonagemCase4);
-                    if (personagemIdCase4 != -1) {
-                        Bag bag = invent();
-                        for (Items item : bag.getItems()) {
-                            BagDAO.insertItems(personagemIdCase4, item);
-                        }
-                    } else {
-                        System.out.println("Personagem não encontrado.");
-                    }
+                    updateInvent();
                     break;
                 case 5:
                     List<Items> item = BagDAO.getItems();
@@ -497,8 +487,30 @@ public abstract class Main {
     }
 
     // Atualizar inventário
-    public static void updateInvent(int personagemId, Items item, Bag inventory) throws SQLException {
+
+    public static Bag updateInvent() throws SQLException {
+        Scanner ler = new Scanner(System.in);
+        Bag inventory = new Bag();
         boolean itemExists = false;
+
+        // Obtém o nome do personagem
+        System.out.print("Informe o nome do personagem: ");
+        String nomePersonagem = ler.nextLine();
+
+        // Obtém o ID do personagem pelo nome
+        int personagemId = BagDAO.getCharByID(nomePersonagem);
+        if (personagemId == -1) {
+            System.out.println("Personagem não encontrado.");
+        }
+
+        // Nome e a quantidade do item
+        System.out.print("Informe o nome do item: ");
+        String itemName = ler.nextLine();
+        System.out.print("Informe a quantidade do item: ");
+        int itemQuantity = ler.nextInt();
+        ler.nextLine();
+
+        Items item = new Items(itemName, itemQuantity);
 
         // Verifica se o item já existe no inventário e atualiza a quantidade se necessário
         for (Items i : inventory.getItems()) {
@@ -508,14 +520,16 @@ public abstract class Main {
                 break;
             }
         }
+        if (!itemExists) {         // Adiciona no inventário se não existe
 
-        // Adiciona no inventário se não existe
-        if (!itemExists) {
             inventory.addItem(item);
+            System.out.println("Inventário atualizado com sucesso!");
         }
 
         // Insere ou atualiza os itens no banco de dados
         BagDAO.insertItems(personagemId, item);
+        return inventory;
+
     }
 
     // Listar itens do inventário
@@ -535,22 +549,22 @@ public abstract class Main {
 
     // Deletar item no inventário
     public static void removeItesInvent(Scanner scanner) {
-            List<Items> items = BagDAO.getItems();
-            listInvent(items);
+        List<Items> items = BagDAO.getItems();
+        listInvent(items);
 
-            System.out.println("Digite o nome do item a ser removido:");
-            String itemName = scanner.nextLine();
+        System.out.println("Digite o nome do item a ser removido:");
+        String itemName = scanner.nextLine();
 
-            boolean success = BagDAO.deleteItem(itemName);
-            if (success) {
-                System.out.println("Item removido com sucesso!");
-            } else {
-                System.out.println("Item não encontrado.");
-            }
-
-            // Atualizar e listar os itens após a remoção
-            items = BagDAO.getItems();
-            listInvent(items);
+        boolean success = BagDAO.deleteItem(itemName);
+        if (success) {
+            System.out.println("Item removido com sucesso!");
+        } else {
+            System.out.println("Item não encontrado.");
         }
+
+        // Atualizar e listar os itens após a remoção
+        items = BagDAO.getItems();
+        listInvent(items);
+    }
 
 }

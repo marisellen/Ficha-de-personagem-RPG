@@ -94,14 +94,14 @@ public class BagDAO {
         try {
             conn = Conect.conector();
 
-    // Procura o ID do personagem pelo nome
-        String personagemSql = "SELECT id FROM personagem WHERE name = ?";
-        psSelect = conn.prepareStatement(personagemSql);
-        psSelect.setString(1, nomePersonagem);
-        rs = psSelect.executeQuery();
+            // Procura o ID do personagem pelo nome
+            String personagemSql = "SELECT id FROM personagem WHERE name = ?";
+            psSelect = conn.prepareStatement(personagemSql);
+            psSelect.setString(1, nomePersonagem);
+            rs = psSelect.executeQuery();
 
-        if (rs.next()) {
-            personagemId = rs.getInt("id");
+            if (rs.next()) {
+                personagemId = rs.getInt("id");
             }
         } catch (SQLException e) {
             e.printStackTrace();
