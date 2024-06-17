@@ -145,18 +145,6 @@ public abstract class Main {
         System.out.println(texto);
     }
 
-    // Método deletar personagem
-    public static void delChar() {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Digite o nome do personagem que deseja excluir:");
-        String characterName = scanner.nextLine();
-
-        CharacterDAO.deleteChar(characterName);
-
-        scanner.close();
-    }
-
     // Método criar nome
     public static Character makeCharacter() {
         Scanner sc = new Scanner(in);
@@ -282,6 +270,7 @@ public abstract class Main {
         return character;
     }
 
+    // Método para escolher profissão
     public static Character choiceCraft(Character character) {
         // Escolher a profissão
         Scanner scanner = new Scanner(in);
@@ -487,7 +476,6 @@ public abstract class Main {
     }
 
     // Atualizar inventário
-
     public static Bag updateInvent() throws SQLException {
         Scanner ler = new Scanner(System.in);
         Bag inventory = new Bag();
@@ -565,5 +553,20 @@ public abstract class Main {
         items = BagDAO.getItems();
         listInvent(items);
     }
+
+    // Método deletar personagem
+    public static void delChar() {
+    Scanner scanner = new Scanner(System.in);
+
+    System.out.println("Digite o nome do personagem que deseja excluir:");
+    String characterName = scanner.nextLine();
+
+    CharacterDAO.deleteChar(characterName);
+
+    scanner.close();
+
+    }
+
+
 
 }

@@ -272,28 +272,76 @@ public class CharacterDAO {
 
     // Delete - ok
     public static void deleteChar(String name) {
-        String delSql = "DELETE FROM personagem WHERE name = ?";
+        String getIdSql = "SELECT id FROM personagem WHERE name = ?";
+        String deleteBarraDeStatusSql = "DELETE FROM barra_de_status WHERE personagem_id = ?";
+        String deleteInventarioSql = "DELETE FROM inventario WHERE personagem_id = ?";
+        String deletePersonagemSql = "DELETE FROM personagem WHERE id = ?";
         Connection conn = null;
-        PreparedStatement ps = null;
+        PreparedStatement psGetId = null;
+        PreparedStatement psDeleteBarraDeStatus = null;
+        PreparedStatement psDeleteInventario = null;
+        PreparedStatement psDeletePersonagem = null;
 
         try {
             conn = Conect.conector();
-            ps = conn.prepareStatement(delSql);
-            ps.setString(1, name);
-            int rowsAffected = ps.executeUpdate();
+            conn.setAutoCommit(false); // Iniciar transação
 
-            if (rowsAffected > 0) {
-                System.out.println("Personagem excluído com sucesso!");
+            // Buscar o ID do personagem
+            psGetId = conn.prepareStatement(getIdSql);
+            psGetId.setString(1, name);
+            ResultSet rs = psGetId.executeQuery();
+
+            if (rs.next()) {
+                int personagemId = rs.getInt("id");
+
+                // Deletar registros relacionados na tabela barra_de_status
+                psDeleteBarraDeStatus = conn.prepareStatement(deleteBarraDeStatusSql);
+                psDeleteBarraDeStatus.setInt(1, personagemId);
+                psDeleteBarraDeStatus.executeUpdate();
+
+                // Deletar registros relacionados na tabela inventario
+                psDeleteInventario = conn.prepareStatement(deleteInventarioSql);
+                psDeleteInventario.setInt(1, personagemId);
+                psDeleteInventario.executeUpdate();
+
+                // Deletar registro da tabela personagem
+                psDeletePersonagem = conn.prepareStatement(deletePersonagemSql);
+                psDeletePersonagem.setInt(1, personagemId);
+                int rowsAffected = psDeletePersonagem.executeUpdate();
+
+                if (rowsAffected > 0) {
+                    conn.commit(); // Confirmar transação
+                    System.out.println("Personagem excluído com sucesso!");
+                } else {
+                    conn.rollback(); // Reverter transação em caso de erro
+                    System.out.println("Nenhum personagem encontrado com o nome fornecido.");
+                }
             } else {
                 System.out.println("Nenhum personagem encontrado com o nome fornecido.");
             }
         } catch (SQLException e) {
+            try {
+                if (conn != null) {
+                    conn.rollback(); // Reverter transação em caso de erro
+                }
+            } catch (SQLException rollbackEx) {
+                rollbackEx.printStackTrace();
+            }
             e.printStackTrace();
         } finally {
-            // Fecha a conexão e a declaração
+            // Fecha a conexão e as declarações
             try {
-                if (ps != null) {
-                    ps.close();
+                if (psGetId != null) {
+                    psGetId.close();
+                }
+                if (psDeleteBarraDeStatus != null) {
+                    psDeleteBarraDeStatus.close();
+                }
+                if (psDeleteInventario != null) {
+                    psDeleteInventario.close();
+                }
+                if (psDeletePersonagem != null) {
+                    psDeletePersonagem.close();
                 }
                 if (conn != null) {
                     conn.close();
