@@ -42,8 +42,14 @@ public abstract class Main {
 
         int opcao;
         do {
+            while (!sc.hasNextInt()) {
+                System.out.println("Entrada inválida. Por favor, insira um número.");
+                sc.nextLine();
+                System.out.print("Digite sua opção: ");
+            }
             opcao = sc.nextInt();
             sc.nextLine();
+
             switch (opcao) {
                 case 0:
                     break;
@@ -566,7 +572,5 @@ public abstract class Main {
     scanner.close();
 
     }
-
-
 
 }
